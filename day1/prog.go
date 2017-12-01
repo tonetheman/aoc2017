@@ -10,11 +10,8 @@ func captcha(s string) int {
 	var v1, v2 int
 	for i := 0; i < len(s); i++ {
 		v1, _ = strconv.Atoi(string(s[i]))
-		if i+1 > len(s)-1 {
-			v2, _ = strconv.Atoi(string(s[0]))
-		} else {
-			v2, _ = strconv.Atoi(string(s[i+1]))
-		}
+		index := (i + 1) % len(s)
+		v2, _ = strconv.Atoi(string(s[index]))
 		if v1 == v2 {
 			//fmt.Println(i, "adding", v1)
 			total += v1
