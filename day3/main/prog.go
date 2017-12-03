@@ -1,112 +1,53 @@
 package main
 
-import "fmt"
-
 const (
-	east  = 0
-	north = 1
-	west  = 2
-	south = 3
+	east  = 1
+	north = 2
+	west  = 3
+	south = 4
 )
 
-// Point holds x and y values
-type Point struct {
+type Position struct {
 	x, y int
 }
 
-// Step holds a point and orientation
+type Orientation int
+
 type Step struct {
-	x, y        int
-	orientation int
+	pos Position
+	ori Orientation
 }
 
-var occupied map[Point]bool
+var occu map[Position]bool
+var a [100]Step
 
-func calcLeftFacing(facing int) int {
-	if facing == east {
-		return north
-	}
-	if facing == north {
-		return west
-	}
-	if facing == west {
-		return south
-	}
-	return east
-}
-
-func calcPointToCheck(x, y int, facing int) Point {
-	if facing == north {
-		return Point{x, y - 1}
-	}
-	if facing == east {
-		return Point{x - 1, y}
-	}
-	if facing == west {
-		return Point{x + 1, y}
-	}
-	// east
-	return Point{x, y + 1}
-}
-
-func newStepGoingForward(old Step) Step {
-	if old.orientation == north {
-		return Step{old.x, old.y - 1, north}
-	}
-	if old.orientation == south {
-		return Step{old.x, old.y + 1, south}
-	}
-	if old.orientation == east {
-		return Step{old.x + 1, old.y, east}
-	}
-	//west
-	return Step{old.x - 1, old.y, west}
-}
-
-func calcSpiral(n int, a *[25]Step) bool {
+func takeStep(n int) {
 	if n == 0 {
-		a[n] = Step{0, 0, east}
-		occupied[Point{0, 0}] = true
-		return true
+		a[n] = Step{Position{0, 0}, east}
+		occu[Position{0, 0}] = true
+		return
 	}
 	if n == 1 {
-		a[n] = Step{1, 0, east}
-		occupied[Point{1, 0}] = true
-		return false
+		a[n] = Step{Position{1, 0}, east}
+		occu[Position{1, 0}] = true
+		return
 	}
-	// to calc n look at n-1
-	// look left if space is free
-	// turn left and move forward
-	dirToCheck := calcLeftFacing(a[n-1].orientation)
-	pointToCheck := calcPointToCheck(a[n-1].x,
-		a[n-1].y, dirToCheck)
-	fmt.Println("dirToCheck", dirToCheck)
-	fmt.Println("pointToCheck", pointToCheck)
-	_, err := occupied[pointToCheck]
-	if err == false {
-		// the key is not in the map
-		fmt.Println("key is not in map")
-		a[n] = Step{pointToCheck.x, pointToCheck.y,
-			dirToCheck}
-		occupied[pointToCheck] = true
-	} else {
-		// the key is in the map
-		// walk forward
-		fmt.Println("new step forward")
-		a[n] = newStepGoingForward(a[n-1])
-		occupied[Point{a[n].x, a[n].y}] = true
+	var last = a[n-1]
+	if last.ori == east {
+		// look NORTH is it empty?
+		lookPos := Position{last.pos.x, last.pos.y - 1}
+		_, err := occu[lookPos]
+		if err == false {
+			// it is empty!
+			// move that direction
+		} else {
+			// to our left is not empty
+			// move forward
+		}
 	}
-	fmt.Println("--------------")
-	return false
+	// now look
 }
 
 func main() {
-	occupied = make(map[Point]bool)
-	var steps [25]Step
-	calcSpiral(0, &steps)
-	calcSpiral(1, &steps)
-	calcSpiral(2, &steps)
-	//calcSpiral(3, &steps)
-	fmt.Println("occupied", occupied)
-	fmt.Println("steps", steps)
+	occu = make(map[Position]bool)
 }
