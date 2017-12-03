@@ -40,10 +40,10 @@ func calcPointToCheck(x, y int, facing int) Point {
 		return Point{x, y - 1}
 	}
 	if facing == east {
-		return Point{x + 1, y}
+		return Point{x - 1, y}
 	}
 	if facing == west {
-		return Point{x - 1, y}
+		return Point{x + 1, y}
 	}
 	// east
 	return Point{x, y + 1}
@@ -85,12 +85,14 @@ func calcSpiral(n int, a *[25]Step) bool {
 	_, err := occupied[pointToCheck]
 	if err == false {
 		// the key is not in the map
+		fmt.Println("key is not in map")
 		a[n] = Step{pointToCheck.x, pointToCheck.y,
 			dirToCheck}
 		occupied[pointToCheck] = true
 	} else {
 		// the key is in the map
 		// walk forward
+		fmt.Println("new step forward")
 		a[n] = newStepGoingForward(a[n-1])
 		occupied[Point{a[n].x, a[n].y}] = true
 	}
@@ -104,7 +106,7 @@ func main() {
 	calcSpiral(0, &steps)
 	calcSpiral(1, &steps)
 	calcSpiral(2, &steps)
-	calcSpiral(3, &steps)
+	//calcSpiral(3, &steps)
 	fmt.Println("occupied", occupied)
 	fmt.Println("steps", steps)
 }
