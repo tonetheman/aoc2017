@@ -45,6 +45,7 @@ func calcPointToCheck(x, y int, facing int) Point {
 	if facing == west {
 		return Point{x - 1, y}
 	}
+	// east
 	return Point{x, y + 1}
 }
 
@@ -58,6 +59,7 @@ func newStepGoingForward(old Step) Step {
 	if old.orientation == east {
 		return Step{old.x + 1, old.y, east}
 	}
+	//west
 	return Step{old.x - 1, old.y, west}
 }
 
