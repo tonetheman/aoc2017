@@ -78,6 +78,8 @@ func calcSpiral(n int, a *[25]Step) bool {
 	dirToCheck := calcLeftFacing(a[n-1].orientation)
 	pointToCheck := calcPointToCheck(a[n-1].x,
 		a[n-1].y, dirToCheck)
+	fmt.Println("dirToCheck", dirToCheck)
+	fmt.Println("pointToCheck", pointToCheck)
 	_, err := occupied[pointToCheck]
 	if err == false {
 		// the key is not in the map
@@ -90,6 +92,7 @@ func calcSpiral(n int, a *[25]Step) bool {
 		a[n] = newStepGoingForward(a[n-1])
 		occupied[Point{a[n].x, a[n].y}] = true
 	}
+	fmt.Println("--------------")
 	return false
 }
 
@@ -98,6 +101,8 @@ func main() {
 	var steps [25]Step
 	calcSpiral(0, &steps)
 	calcSpiral(1, &steps)
+	calcSpiral(2, &steps)
+	calcSpiral(3, &steps)
 	fmt.Println("occupied", occupied)
 	fmt.Println("steps", steps)
 }
