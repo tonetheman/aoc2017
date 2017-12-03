@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 const (
 	east  = 1
 	north = 2
@@ -40,6 +42,10 @@ func takeStep(n int) {
 		if err == false {
 			// it is empty!
 			// move that direction
+			fmt.Println("can move to the left!")
+			newPos := Position{last.pos.x, last.pos.y - 1}
+			occu[newPos] = true
+			a[n] = Step{newPos, north}
 		} else {
 			// to our left is not empty
 			// move forward
@@ -50,4 +56,8 @@ func takeStep(n int) {
 
 func main() {
 	occu = make(map[Position]bool)
+	takeStep(0)
+	takeStep(1)
+	takeStep(2)
+	fmt.Println("occu", occu)
 }
