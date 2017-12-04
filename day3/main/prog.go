@@ -2,62 +2,38 @@ package main
 
 import "fmt"
 
-const (
-	east  = 1
-	north = 2
-	west  = 3
-	south = 4
-)
-
-type Position struct {
-	x, y int
-}
-
-type Orientation int
-
-type Step struct {
-	pos Position
-	ori Orientation
-}
-
-var occu map[Position]bool
-var a [100]Step
-
-func takeStep(n int) {
-	if n == 0 {
-		a[n] = Step{Position{0, 0}, east}
-		occu[Position{0, 0}] = true
-		return
-	}
-	if n == 1 {
-		a[n] = Step{Position{1, 0}, east}
-		occu[Position{1, 0}] = true
-		return
-	}
-	var last = a[n-1]
-	if last.ori == east {
-		// look NORTH is it empty?
-		lookPos := Position{last.pos.x, last.pos.y - 1}
-		_, err := occu[lookPos]
-		if err == false {
-			// it is empty!
-			// move that direction
-			fmt.Println("can move to the left!")
-			newPos := Position{last.pos.x, last.pos.y - 1}
-			occu[newPos] = true
-			a[n] = Step{newPos, north}
-		} else {
-			// to our left is not empty
-			// move forward
-		}
-	}
-	// now look
+type Layer struct {
+	layer          int
+	right_bottom   int
+	nums_in        int
+	right_side_len int
 }
 
 func main() {
-	occu = make(map[Position]bool)
-	takeStep(0)
-	takeStep(1)
-	takeStep(2)
-	fmt.Println("occu", occu)
+	var layers []Layer
+	layer := 1
+	i := 3
+	for {
+
+		fmt.Println("layer", layer, "i", i, "ii", i*i)
+		layers = append(layers, Layer{layer, i * i, 0, ((layer + 1) * 2) - 1})
+		if i*i > 325489 {
+			break
+		}
+		layer++
+		i += 2
+	}
+
+	// computer the number of numbers in each layer
+	for i := 0; i < len(layers); i++ {
+		if i != 0 {
+			//fmt.Println("fixing nums in", i)
+			layers[i].nums_in = layers[i].right_bottom - layers[i-1].right_bottom
+		}
+	}
+	// hard code the first layer
+	layers[0].nums_in = 8
+
+	fmt.Println(layers[len(layers)-1])
+
 }
