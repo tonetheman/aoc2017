@@ -1,6 +1,17 @@
 # tonys advent of code 2017
 -------------------------
 
+## Day 3
+Gross gross day.
+
+I could not solve this one. So early in the cycle and I cannot solve one. Hopefully this does not mean the others will be harder.
+
+I worked out some of the math on a spreadsheet for this problem. I can see the right bottom corner is related to a square root. I think I have worked out which layer the target number is on.
+
+Next I have to determine how far off 0 it is. Sure there is some math I can do there too. But it has escaped me so far.
+
+Horrible for a problem to be so hard so early.
+
 ## Day 2
 Also in go. Interesting thing here is IO for me. I am still new enough to go and things like dealing with files are still not natural.
 
