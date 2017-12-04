@@ -40,7 +40,15 @@ func leftMid(n int) int {
 }
 
 func main() {
-	for i := 1; i < 5; i++ {
-		fmt.Println(i, rightCorner(i), bottomMid(i), rightMid(i), topMid(i), leftMid(i))
+	i := 1
+	const target int = 325489
+	for {
+		fmt.Println(i, rightCorner(i), leftMid(i), bottomMid(i), topMid(i), rightMid(i))
+		if target < rightCorner(i) {
+			fmt.Println("stopping...")
+			break
+		}
+		i++
 	}
+
 }
