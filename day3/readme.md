@@ -1,6 +1,9 @@
 
 ## new plan
 
+- guess of 589 is not right
+    - off again on the math somewhere grrrr.
+
 new thoughts: made a spreadsheet
 https://docs.google.com/spreadsheets/d/16xnr1pwvv-77uvnErC0JT37InEqV-rdcoSj43bWC1YA/edit#gid=0
 
