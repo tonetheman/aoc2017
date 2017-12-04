@@ -9,7 +9,8 @@ https://docs.google.com/spreadsheets/d/16xnr1pwvv-77uvnErC0JT37InEqV-rdcoSj43bWC
 1 - 1*1
 2 - 3*3
 3 - 5*5
-4 - 7*&
+4 - 7*7
+5 - 9*9
 
 bottom middle point
 1 - (1*1)-0
@@ -18,7 +19,7 @@ bottom middle point
 4 - (7*7)-3
 5 - (9*9)-4
 
-right mid 
+right mid
 1 - (1*1)-0
 2 - (3*3)-7
 3 - (5*5)-14
@@ -38,4 +39,3 @@ left mid
 3 - (5*5)-6
 4 - (7*7)-9
 5 - (9*9)-12
-
