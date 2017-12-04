@@ -1,6 +1,13 @@
 # tonys advent of code 2017
 -------------------------
 
+## Day 4
+Much easier today.
+
+Used code from day 2 to read in a file and a text scanner also from day 2.
+
+The only golang thing I did different was I tried to use a range for walking the map and some of the for-loops. I messed up the syntax a few times but it makes sense to me. I need to keep using it.
+
 ## Day 3
 Gross gross day.
 
