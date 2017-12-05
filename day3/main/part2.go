@@ -54,13 +54,27 @@ func main() {
 				// we can move so move!
 				new_sum := compute_sum(&grid, new_row, new_col)
 				grid.set(new_row, new_col, new_sum)
+				col = new_col
+				row = new_row
 				current_dir = north
 			} else {
 				// we could not move go forward
 			}
 		}
 		if current_dir == north {
-
+			// facing north look left and see if empty
+			new_row := row
+			new_col := col - 1
+			if grid.get(new_row, new_col) == 0 {
+				// we can move so move!
+				new_sum := compute_sum(&grid, new_row, new_col)
+				grid.set(new_row, new_col, new_sum)
+				col = new_col
+				row = new_row
+				current_dir = west
+			} else {
+				// could not move left go forward
+			}
 		}
 		count++
 		if count > 2 {
