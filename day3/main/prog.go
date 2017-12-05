@@ -42,10 +42,8 @@ func leftMid(n int) int {
 	return rc - (n-1)*3
 }
 
-func main() {
+func part1(target int) int {
 	i := 1
-	//const target int = 325489
-	const target int = 23
 	for {
 		fmt.Println(i, rightCorner(i), bottomMid(i), leftMid(i), topMid(i), rightMid(i))
 		if target < rightCorner(i) {
@@ -62,33 +60,71 @@ func main() {
 		aC := math.Abs(float64(target - rightCorner(i)))
 		aB := math.Abs(float64(target - bottomMid(i)))
 		fmt.Println("ac and ab", aC, aB)
+		layer := i - 1
 		if aC < aB {
 			// closer to the corner
-			fmt.Println(i, aC, i+int(aC))
+			fmt.Println(layer, aC, layer+int(aC))
 		} else {
-			fmt.Println(i, aB, i+int(aB))
+			fmt.Println(layer, aB, layer+int(aB))
 		}
 	}
 	if target >= leftMid(i) && target < bottomMid(i) {
-		fmt.Println("between left and bottom")
-		layer := i
-		bottomLimit := leftMid(i)
-		topLimit := bottomMid(i)
-		fmt.Println("layer is", layer)
-		fmt.Println(target, "sammiched here", topLimit, bottomLimit)
-
-		// now figure horizontal distance to 1
-		hDist := target - bottomLimit
-		fmt.Println("hDist is", hDist)
-
-		fmt.Println("m dist", layer+hDist)
+		fmt.Println("between leftMid and bottomMid")
+		fmt.Println("target:", target, leftMid(i), bottomMid(i))
+		aC := math.Abs(float64(target - leftMid(i)))
+		aB := math.Abs(float64(target - bottomMid(i)))
+		fmt.Println("ac and ab", aC, aB)
+		layer := i - 1
+		if aC < aB {
+			fmt.Println(layer, aC, layer+int(aC))
+			return layer + int(aC)
+		} else {
+			fmt.Println(layer, aB, layer+int(aB))
+			return layer + int(aB)
+		}
 
 	}
 	if target >= topMid(i) && target < leftMid(i) {
-		fmt.Println("not here")
+		fmt.Println("between topMid and leftMid")
+		fmt.Println("target:", target, topMid(i), leftMid(i))
+		aC := math.Abs(float64(target - topMid(i)))
+		aB := math.Abs(float64(target - leftMid(i)))
+		fmt.Println("ac and ab", aC, aB)
+		layer := i - 1
+		if aC < aB {
+			// closer to the corner
+			fmt.Println(layer, aC, layer+int(aC))
+			return layer + int(aC)
+		} else {
+			fmt.Println(layer, aB, layer+int(aB))
+			return layer + int(aB)
+		}
 	}
 	if target >= rightMid(i) && target < topMid(i) {
-		fmt.Println("not here either")
+		fmt.Println("between rightMid and topMid")
+		fmt.Println("target:", target, rightMid(i), topMid(i))
+		aC := math.Abs(float64(target - rightMid(i)))
+		aB := math.Abs(float64(target - topMid(i)))
+		fmt.Println("ac and ab", aC, aB)
+		layer := i - 1
+		if aC < aB {
+			fmt.Println(layer, aC, layer+int(aC))
+			return layer + int(aC)
+		} else {
+			fmt.Println(layer, aB, layer+int(aB))
+			return layer + int(aB)
+		}
+
 	}
 
+	return -1
+}
+
+func main() {
+	// passed
+	//part1(23)
+	//fmt.Println("RES", part1(12))
+	//fmt.Println("RES", part1(1024))
+	//fmt.Println("RES", part1(1025))
+	fmt.Println("RES", part1(325489))
 }
