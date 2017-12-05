@@ -1,6 +1,9 @@
 # tonys advent of code 2017
 -------------------------
 
+## Day 5
+Cool problem. Reminds me of the machine from last year AOC. Just jmp instructions in this case. I again stole code from Day 2 for reading files and scanning in golang. I feel like it will take me a while to really remember how to read a file in golang line by line.
+
 ## Day 3 (revisited)
 After some thought today and talking to some other folks, I was able to finish day 3.
 
