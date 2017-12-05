@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 func rightCorner(n int) int {
 	return (2*n - 1) * (2*n - 1)
@@ -55,6 +58,16 @@ func main() {
 	// NEED TO CHECK THIS STUFF AND MAKE SURE IT IS RIGHT
 	if target >= bottomMid(i) && target < rightCorner(i) {
 		fmt.Println("between right corner and bottom")
+		fmt.Println("target:", target, bottomMid(i), rightCorner(i))
+		aC := math.Abs(float64(target - rightCorner(i)))
+		aB := math.Abs(float64(target - bottomMid(i)))
+		fmt.Println("ac and ab", aC, aB)
+		if aC < aB {
+			// closer to the corner
+			fmt.Println(i, aC, i+int(aC))
+		} else {
+			fmt.Println(i, aB, i+int(aB))
+		}
 	}
 	if target >= leftMid(i) && target < bottomMid(i) {
 		fmt.Println("between left and bottom")
