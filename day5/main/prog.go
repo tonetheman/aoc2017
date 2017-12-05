@@ -35,6 +35,7 @@ func readInput(filename string) []int {
 	return vals
 }
 
+// used for part1
 func runProgram(vals []int) {
 	debug_count := 0
 	ip := 0 // instruction pointer
@@ -70,8 +71,48 @@ func runProgram(vals []int) {
 	fmt.Println("You made it, total steps", debug_count+1)
 }
 
+//use part 2
+func runProgram2(vals []int) {
+	debug_count := 0
+	ip := 0 // instruction pointer
+	for {
+		old_ip := ip
+		current_jmp := vals[ip]
+
+		// console log we are jmping
+		//fmt.Println("jmp with offset", current_jmp)
+		// make the jmp
+		ip += current_jmp
+		//fmt.Println("ip is now pointing to", ip)
+		// increment the val at oldip
+		if vals[old_ip] >= 3 {
+			vals[old_ip]--
+		} else {
+			vals[old_ip]++
+		}
+
+		//fmt.Println("current state", vals)
+		if ip >= len(vals) {
+			fmt.Println("ESCAPED", ip, debug_count)
+			break
+		}
+		//if debug_count == 4 {
+		//	fmt.Println("debug break")
+		//	fmt.Println("len of vals", len(vals))
+		//	break
+		//}
+		//fmt.Println("----------------")
+		debug_count++
+		if debug_count%100 == 0 {
+			fmt.Print("*")
+		}
+	}
+
+	fmt.Println("You made it, total steps", debug_count+1)
+}
+
 func main() {
 	vals := readInput("part1.input")
 	fmt.Println("puzzle input", vals)
-	runProgram(vals)
+	runProgram2(vals)
 }
