@@ -46,7 +46,8 @@ func main() {
 
 	count := 1
 	for {
-		if current_dir == east {
+		switch current_dir {
+		case east:
 			// facing east look left and see if empty
 			new_row := row - 1
 			new_col := col
@@ -59,9 +60,15 @@ func main() {
 				current_dir = north
 			} else {
 				// we could not move go forward
+				new_row := row
+				new_col := col + 1
+				new_sum := compute_sum(&grid, new_row, new_col)
+				grid.set(new_row, new_col, new_sum)
+				col = new_col
+				row = new_row
+				current_dir = east
 			}
-		}
-		if current_dir == north {
+		case north:
 			// facing north look left and see if empty
 			new_row := row
 			new_col := col - 1
@@ -74,10 +81,60 @@ func main() {
 				current_dir = west
 			} else {
 				// could not move left go forward
+				new_row := row - 1
+				new_col := col
+				new_sum := compute_sum(&grid, new_row, new_col)
+				grid.set(new_row, new_col, new_sum)
+				col = new_col
+				row = new_row
+				current_dir = north
 			}
+		case west:
+			// facing west look left and see if it is empty
+			new_row := row + 1
+			new_col := col
+			if grid.get(new_row, new_col) == 0 {
+				// we can move so move!
+				new_sum := compute_sum(&grid, new_row, new_col)
+				grid.set(new_row, new_col, new_sum)
+				col = new_col
+				row = new_row
+				current_dir = south
+			} else {
+				// could not move left go foward
+				new_row := row
+				new_col := col - 1
+				new_sum := compute_sum(&grid, new_row, new_col)
+				grid.set(new_row, new_col, new_sum)
+				col = new_col
+				row = new_row
+				current_dir = west
+			}
+		case south:
+			// facing south look left and see if it is empty
+			new_row := row
+			new_col := col + 1
+			if grid.get(new_row, new_col) == 0 {
+				// we can move so move now!
+				new_sum := compute_sum(&grid, new_row, new_col)
+				grid.set(new_row, new_col, new_sum)
+				col = new_col
+				row = new_row
+				current_dir = east
+			} else {
+				// could not move left go forward
+				new_row := row + 1
+				new_col = col
+				new_sum := compute_sum(&grid, new_row, new_col)
+				grid.set(new_row, new_col, new_sum)
+				col = new_col
+				row = new_row
+				current_dir = south
+			}
+
 		}
 		count++
-		if count > 2 {
+		if count > 65 {
 			break
 		}
 	}

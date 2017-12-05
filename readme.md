@@ -1,6 +1,15 @@
 # tonys advent of code 2017
 -------------------------
 
+## Day 3 (revisited)
+After some thought today and talking to some other folks, I was able to finish day 3.
+
+A lot of it was math for part 1. I came up with formulas for the bottom right corner for each layer of the spiral. Once I got that corner it was clear this value bounded the target. Meaning if you ever find a square bigger than your target then you have found the layer the target is on.
+
+Once I did that I came up with another set of formula for each mid point on the 4 sides of each layer. Not as hard as it sounds. Then it is a simple determination of which side the target is on and which side it is closer to.
+
+For the second part of the problem I just built the spiral. It seemed easier. I used the recursive definition and got the number on the first try.
+
 ## Day 4
 Much easier today.
 
