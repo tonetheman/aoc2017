@@ -42,35 +42,48 @@ func distOp(buckets []int) {
 	fmt.Println("AFTER DIST", buckets)
 }
 
-func checkForMatch(orig []int, a []int) bool {
-	for index, val := range orig {
-		if a[index] != val {
-			return false
-		}
+func cvtInSliceToString(a []int) string {
+	txt := []string{}
+	for _, val := range a {
+		ts := strconv.Itoa(val)
+		txt = append(txt, ts)
 	}
-	return true
+	return strings.Join(txt, "")
 }
 
-func part1() {
+func part1() int {
 
-	buckets := getInput("0\t2\t7\t0")
-	// Need to save off buckets
+	// this is a slice of ints
+	//buckets := getInput("0\t2\t7\t0")
+	buckets := getInput("2	8	8	5	4	2	3	1	5	5	1	2	15	13	5	14")
 
-	orig := make([]int, len(buckets))
-	copy(orig, buckets)
+	var seen map[string]bool
+	seen = make(map[string]bool)
+
+	seen[cvtInSliceToString(buckets)] = true
+	fmt.Println("seen", seen)
 	count := 0
 	for {
 		distOp(buckets)
-		fmt.Println(count, "match",
-			checkForMatch(orig, buckets))
-		fmt.Println("------------")
-		count++
-		if count == 5 {
+		ts := cvtInSliceToString(buckets)
+		_, ok := seen[ts]
+		if ok == false {
+			seen[ts] = true
+		} else {
+			fmt.Println("DUP")
+			count++
 			break
 		}
+		fmt.Println("------------")
+		count++
+		//if count == 5 {
+		//	break
+		//}
 	}
+	fmt.Println("final count", count)
+	return count
 }
 
 func main() {
-
+	part1()
 }
