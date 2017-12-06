@@ -57,10 +57,11 @@ func part1() int {
 	//buckets := getInput("0\t2\t7\t0")
 	buckets := getInput("2	8	8	5	4	2	3	1	5	5	1	2	15	13	5	14")
 
-	var seen map[string]bool
-	seen = make(map[string]bool)
+	var seen map[string]int
+	seen = make(map[string]int)
 
-	seen[cvtInSliceToString(buckets)] = true
+	seen[cvtInSliceToString(buckets)] = 0
+	seenIndex := 1
 	fmt.Println("seen", seen)
 	count := 0
 	for {
@@ -68,9 +69,13 @@ func part1() int {
 		ts := cvtInSliceToString(buckets)
 		_, ok := seen[ts]
 		if ok == false {
-			seen[ts] = true
+			seen[ts] = seenIndex
+			seenIndex++
 		} else {
 			fmt.Println("DUP")
+			fmt.Println("current seenIndex", seenIndex)
+			fmt.Println("from map", seen[ts])
+			fmt.Println("DIST", (seenIndex - seen[ts]))
 			count++
 			break
 		}

@@ -1,6 +1,13 @@
 # tonys advent of code 2017
 -------------------------
 
+## Day 6
+More code than I thought I would need. Meh.
+
+Had to look up map syntax for go again. The way to test for existing items in the map does not make a lot of sense to me so I have to look up the syntax everytime.
+
+The way I solved part1 made part2 super simple.
+
 ## Day 5
 Cool problem. Reminds me of the machine from last year AOC. Just jmp instructions in this case. I again stole code from Day 2 for reading files and scanning in golang. I feel like it will take me a while to really remember how to read a file in golang line by line.
 
