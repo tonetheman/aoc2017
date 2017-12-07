@@ -1,6 +1,13 @@
 # tonys advent of code 2017
 -------------------------
 
+## Day 7
+Part1 was not bad. Spent a lot of time parsing input.
+
+Found some weirdness with golang. When I was accessing a value inside a struct that was inserted into a map, I could not change the value. I had to copy the struct change the value then reinsert into the map. Might be how maps/structs work in go but it was not intuitive at all.
+
+The algorithm I went with came from me staring at the input. I removed anyone who was listed as a child from the running and one node popped out as the answer. It worked.
+
 ## Day 6
 More code than I thought I would need. Meh.
 

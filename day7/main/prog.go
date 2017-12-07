@@ -82,6 +82,9 @@ func part1() {
 			for _, kidname := range rP.kids {
 				junk := all[kidname]
 				junk.out = true
+				// weird nesss for golang here
+				// why does all[kidname].out = X
+				// not work?
 				all[kidname] = junk
 			}
 		}
