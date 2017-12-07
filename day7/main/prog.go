@@ -18,7 +18,8 @@ type Program struct {
 var p map[string]Program
 
 func readInput() {
-	inf, err := os.Open("test.input")
+	//inf, err := os.Open("test.input")
+	inf, err := os.Open("part1.input")
 	if err != nil {
 		fmt.Println("cannot open file", err)
 	}
@@ -62,9 +63,41 @@ func readInput() {
 	}
 }
 
+func part1() {
+	type Elim struct {
+		name string
+		out  bool
+	}
+	// make a list of all the nodes
+	// mark them as not out yet
+	all := make(map[string]Elim)
+	for k := range p {
+		all[k] = Elim{k, false}
+	}
+
+	for k := range all {
+		// get the real program
+		rP := p[k]
+		if len(rP.kids) != 0 {
+			for _, kidname := range rP.kids {
+				junk := all[kidname]
+				junk.out = true
+				all[kidname] = junk
+			}
+		}
+	}
+	fmt.Println("DONE------------------")
+	for k, v := range all {
+		if v.out == false {
+			fmt.Println(k, v)
+		}
+	}
+}
+
 func main() {
 	p = make(map[string]Program)
 	readInput()
 	fmt.Println("done with input")
 	fmt.Println(p)
+	part1()
 }
