@@ -1,0 +1,9 @@
+## thoughts on day7 tree building
+
+Get the full list in memory.
+Try to eliminate leaf nodes
+  * find a node with children
+    * start building tree
+  * once you place a leaf node remove it from the pool
+
+  repeat!
