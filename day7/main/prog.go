@@ -97,10 +97,46 @@ func part1() {
 	}
 }
 
+func checkBalanced(node string) bool {
+	var n = p[node]
+	fmt.Println(n)
+	if len(n.kids) != 0 {
+		var firstNodeWeight = p[n.kids[0]].weight
+		fmt.Println("first node weight", firstNodeWeight)
+		for i := 0; i < len(n.kids); i++ {
+			if i != 0 {
+				fmt.Println("checking", p[n.kids[i]], p[n.kids[i]].weight)
+				if p[n.kids[i]].weight != firstNodeWeight {
+					// if you find one that does not match
+					// mark it false
+					return false
+				}
+			}
+		}
+	} else {
+		return true
+	}
+	return true
+}
+
+func part2() {
+
+	for k, _ := range p {
+		//fmt.Println("checking balanced...")
+		if checkBalanced(k) == false {
+			fmt.Println(k, p[k])
+		}
+	}
+
+	//fmt.Println(checkBalanced("wklofr"))
+}
+
 func main() {
 	p = make(map[string]Program)
 	readInput()
 	fmt.Println("done with input")
-	fmt.Println(p)
-	part1()
+	//fmt.Println(p)
+	//part1()
+	//part2()
+	checkBalanced("mbxvcsi")
 }
