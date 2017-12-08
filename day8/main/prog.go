@@ -23,13 +23,15 @@ func update(reg string, instr string, inc_amt int) {
 	}
 }
 
-func readInput(filename string) {
+func readInput(filename string) int {
 	inf, err := os.Open(filename)
 	if err != nil {
 		fmt.Println("cannot open file", err)
 	}
 	// close it later
 	defer inf.Close()
+
+	largestRunningReg := -1
 
 	// make a scanner to read in line by line
 	scanner := bufio.NewScanner(inf)
@@ -46,7 +48,7 @@ func readInput(filename string) {
 		op := tokens[5]
 		operand := tokens[6]
 		iOperand, _ := strconv.Atoi(operand)
-		//fmt.Println(reg, instr, inc_amt, checkedReg, op, operand)
+		fmt.Println(reg, instr, inc_amt, checkedReg, op, operand)
 
 		checkRegVal := regs[checkedReg]
 		switch op {
@@ -78,19 +80,34 @@ func readInput(filename string) {
 		default:
 			fmt.Println("UNKNOWN OP", op)
 		}
+		//fmt.Println(regs)
+		largestRunningReg = findLargestReg(largestRunningReg)
+		//fmt.Println("max running so far", largestRunningReg)
+		//fmt.Println("-------------")
 	}
+	return largestRunningReg
+}
+
+func findLargestReg(curMax int) int {
+	for _, v := range regs {
+		if v > curMax {
+			curMax = v
+		}
+	}
+	return curMax
+}
+
+func part1() {
+	//maxRunningReg := readInput("main\\test.input")
+	//fmt.Println("final regs", regs)
+	maxRunningReg := readInput("main\\part1.input")
+	maxValue := findLargestReg(-1)
+	fmt.Println("max reg during running:", maxRunningReg)
+	fmt.Println("max value for regs:", maxValue)
 }
 
 func main() {
 	regs = make(map[string]int)
-	//readInput("main\\test.input")
-	//fmt.Println("final regs", regs)
-	readInput("main\\part1.input")
-	maxValue := -1
-	for _, v := range regs {
-		if v > maxValue {
-			maxValue = v
-		}
-	}
-	fmt.Println("max value for regs:", maxValue)
+	part1()
+
 }

@@ -1,6 +1,13 @@
 # tonys advent of code 2017
 -------------------------
 
+## Day 8
+This type of puzzle is easy for me. The main mistake I made was I did not know all the cases until I ran the puzzle input. The code I wrote has some duplication in it so that could be fixed.
+
+Part 2 was just a variation on part1 with a running max value. Also not a problem.
+
+Mainly learned more about switch/case in go.
+
 ## Day 7
 Part1 was not bad. Spent a lot of time parsing input.
 
