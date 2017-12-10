@@ -4,40 +4,58 @@ import (
 	"fmt"
 )
 
-var skipSize = 0
-var currentPosition = 0
+const debug = false
 
-func knothash(ll []int, ilens []int) int {
-	var LEN int = len(ll)
+//var skipSize = 0
+//var currentPosition = 0
 
-	fmt.Println(ll)
-	fmt.Println("input lens", ilens)
+// KnotHash - implement from day10
+// pass the input ll
+// pass the lengths ilens
+// pass the skipSize (initial should be 0)
+// pass the current Position (initial should be 0)
+// returns a chk (res[0]*res[1])
+// returns the skipSize
+// returns the currentPosition
+func KnotHash(ll []int, ilens []int, skipSize, currentPosition int) (int, int, int) {
+	var LEN = len(ll)
 
-	// skip size starts at 0
-	//skipSize := 0
-	fmt.Println("skipSize is set to", skipSize)
-
-	// current position in the input array
-	//currentPosition := 0
-	fmt.Println("current pos", currentPosition)
+	if debug {
+		fmt.Println(ll)
+		fmt.Println("input lens", ilens)
+		// skip size starts at 0
+		//skipSize := 0
+		fmt.Println("skipSize is set to", skipSize)
+		// current position in the input array
+		//currentPosition := 0
+		fmt.Println("current pos", currentPosition)
+	}
 
 	// current spot in the lens array
 	currentLensIndex := 0
-	fmt.Println("current lens index", currentLensIndex)
+	if debug {
+		fmt.Println("current lens index", currentLensIndex)
+	}
 
 	// loop count is for debugging
 	loopCount := 0
 	for loopCount < len(ilens) {
-		fmt.Println("ll at start of loop:", ll)
+		if debug {
+			fmt.Println("ll at start of loop:", ll)
+		}
 
 		// amount we need to reverse
 		revThisLen := ilens[currentLensIndex]
-		fmt.Println("reverse this amount", revThisLen)
+		if debug {
+			fmt.Println("reverse this amount", revThisLen)
+		}
 
 		// make a new list to hold the numbers we need to
 		// reverse
 		newList := make([]int, revThisLen)
-		fmt.Println("new List", newList)
+		if debug {
+			fmt.Println("new List", newList)
+		}
 
 		// move those numbers into the list
 		// use a temporary so we do not mess up currentPositon (yet)
@@ -46,13 +64,17 @@ func knothash(ll []int, ilens []int) int {
 			newList[i] = ll[tmpCurrentPosition]
 			tmpCurrentPosition = (tmpCurrentPosition + 1) % LEN
 		}
-		fmt.Println("newList filled", newList)
+		if debug {
+			fmt.Println("newList filled", newList)
+		}
 
 		// reverse the list
 		for i, j := 0, len(newList)-1; i < j; i, j = i+1, j-1 {
 			newList[i], newList[j] = newList[j], newList[i]
 		}
-		fmt.Println("new list is now", newList)
+		if debug {
+			fmt.Println("new list is now", newList)
+		}
 
 		// now put the numbers back into the array
 		tmpCurrentPosition = currentPosition
@@ -61,16 +83,24 @@ func knothash(ll []int, ilens []int) int {
 			tmpCurrentPosition = (tmpCurrentPosition + 1) % LEN
 		}
 
-		fmt.Println("ll is now this", ll)
+		if debug {
+			fmt.Println("ll is now this", ll)
+		}
 		currentPosition = (currentPosition + revThisLen + skipSize) % LEN
-		fmt.Println("currentPosition has moved to", currentPosition)
+		if debug {
+			fmt.Println("currentPosition has moved to", currentPosition)
+		}
 		skipSize++
-		fmt.Println("skipSize has increased and is now", skipSize)
+		if debug {
+			fmt.Println("skipSize has increased and is now", skipSize)
+		}
 		currentLensIndex++
-		fmt.Println("current Lens index has increased", currentLensIndex)
+		if debug {
+			fmt.Println("current Lens index has increased", currentLensIndex)
+			fmt.Println("ll at end of loop", ll)
+			fmt.Println("------------------------")
+		}
 
-		fmt.Println("ll at end of loop", ll)
-		fmt.Println("------------------------")
 		loopCount++
 		//if loopCount == 4 {
 		//		break
@@ -79,11 +109,13 @@ func knothash(ll []int, ilens []int) int {
 	} // end of for loop
 
 	// final 2 numbers
-	fmt.Println(ll[0], ll[1])
-	fmt.Println("answer:", ll[0]*ll[1])
-	fmt.Println("return skipSize:", skipSize)
-	fmt.Println("return currentPosition:", currentPosition)
-	return ll[0] * ll[1]
+	if debug {
+		fmt.Println(ll[0], ll[1])
+		fmt.Println("answer:", ll[0]*ll[1])
+		fmt.Println("return skipSize:", skipSize)
+		fmt.Println("return currentPosition:", currentPosition)
+	}
+	return ll[0] * ll[1], skipSize, currentPosition
 }
 
 func part1() {
@@ -95,10 +127,12 @@ func part1() {
 	}
 	fmt.Println(ll)
 	ilens := []int{129, 154, 49, 198, 200, 133, 97, 254, 41, 6, 2, 1, 255, 0, 191, 108}
-	knothash(ll, ilens)
+	skipSize := 0
+	currentPosition := 0
+	KnotHash(ll, ilens, skipSize, currentPosition)
 }
 
-func compute_spare_hash(a []int) int {
+func computeSparseHash(a []int) int {
 	total := 0
 	for i := 0; i < 16; i++ {
 		total ^= a[i]
@@ -107,31 +141,48 @@ func compute_spare_hash(a []int) int {
 }
 
 func part2(s string) {
-	input_list := make([]int, 0)
+	inputList := make([]int, 0)
+	// take the input as a string and use
+	// the ascii values
 	for _, runeValue := range s {
-		input_list = append(input_list, int(runeValue))
+		inputList = append(inputList, int(runeValue))
 	}
-	input_list = append(input_list, 17)
-	input_list = append(input_list, 31)
-	input_list = append(input_list, 73)
-	input_list = append(input_list, 47)
-	input_list = append(input_list, 23)
-	fmt.Println("s", s)
-	fmt.Println("input_list", input_list)
+	// append something given in the problem
+	inputList = append(inputList, 17)
+	inputList = append(inputList, 31)
+	inputList = append(inputList, 73)
+	inputList = append(inputList, 47)
+	inputList = append(inputList, 23)
+	if debug {
+		fmt.Println("s", s)
+		fmt.Println("inputList", inputList)
+	}
 
+	// set the initial values
 	ll := make([]int, 256)
 	for i := 0; i < 256; i++ {
 		ll[i] = i
 	}
 
+	// this section of code is a round for knothash
+	skipSize := 0
+	currentPosition := 0
 	for i := 0; i < 64; i++ {
-		knothash(ll, input_list)
+		_, skipSize, currentPosition = KnotHash(ll, inputList, skipSize, currentPosition)
 	}
 
-	fmt.Println("END OF 64 ROUNDS")
-	fmt.Println(ll)
+	if debug {
+		fmt.Println("END OF 64 ROUNDS")
+		fmt.Println(ll)
+	}
+
+	// compute the sparse hash of the result
 	res := sp(ll)
-	fmt.Println("res is", res)
+	if debug {
+		fmt.Println("res is", res)
+	}
+
+	// print it all
 	for _, val := range res {
 		fmt.Printf("%2x", val)
 	}
@@ -146,14 +197,16 @@ func sp(a []int) []int {
 	//fmt.Println(a)
 	res := make([]int, 16)
 	for i := 0; i < 16; i++ {
-		fmt.Println(i*16, (i+1)*16, a[i*16:(i+1)*16])
-		res[i] = compute_spare_hash(a[i*16 : (i+1)*16])
+		//fmt.Println(i*16, (i+1)*16, a[i*16:(i+1)*16])
+		res[i] = computeSparseHash(a[i*16 : (i+1)*16])
 	}
-	fmt.Println(res)
+	//fmt.Println(res)
 	return res
 }
 func main() {
+	//part2("AoC 2017")
 	part2("129,154,49,198,200,133,97,254,41,6,2,1,255,0,191,108")
+
 	//a := []int{65, 27, 9, 1, 4, 3, 40, 50, 91, 7, 6, 0, 2, 5, 68, 22}
 	//fmt.Println(compute_spare_hash(a))
 	//a := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
