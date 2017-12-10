@@ -9,43 +9,46 @@ func parse(s string) {
 	for index, runeValue := range s {
 		fmt.Println(index, runeValue)
 		if inGarbage && ignoreNextRune {
-			fmt.Println("ignoring from !")
+			fmt.Println("inGarbage and ignoreNextRune is true")
+			fmt.Println("ignoring !")
 			ignoreNextRune = false
 			continue
 		}
-		switch runeValue {
-		case 60:
-			if inGarbage {
-				fmt.Println("got a < already in garbage: IGNORE")
-				continue
-			}
-			fmt.Println("got a < moving to inGarbage state", inGarbage)
-			inGarbage = true
-		case 62:
-			fmt.Println("got a > moving to a not inGarbage state", inGarbage)
-			inGarbage = false
-		case 33:
-			if inGarbage {
+
+		if inGarbage {
+			switch runeValue {
+			case 62:
+				inGarbage = false
+				fmt.Println("got a > moving to a not inGarbage state", inGarbage)
+			case 33:
 				ignoreNextRune = true
-			}
-		default:
-			if inGarbage {
+			default:
 				fmt.Println("in default", runeValue, "ignoring for inGarbage")
 				continue
+
 			}
+		}
+
+		// NOT in GARBAGE DOWN HERE
+		switch runeValue {
+		case 60:
+			fmt.Println("got a < moving to inGarbage state", inGarbage)
+			inGarbage = true
+		default:
+			fmt.Println("in default")
 		}
 	}
 	inGarbage = true
 }
 
 func tests() {
-	//parse("<>")
+	parse("<>")
 	//parse("<random characters>")
 	//parse("<<<<>")
 	//parse("<{!>}>")
 	//parse("<!!>")
 	//parse("<!!!>>")
-	parse("<{o\"i!a,<{i<a>")
+	//parse("<{o\"i!a,<{i<a>")
 }
 
 func main() {
