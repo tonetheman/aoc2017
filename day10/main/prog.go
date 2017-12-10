@@ -5,9 +5,9 @@ import (
 )
 
 func knothash(ll []int, ilens []int) int {
-	//ll := [5]int{0, 1, 2, 3, 4}
+	var LEN int = len(ll)
+
 	fmt.Println(ll)
-	//ilens := [4]int{3, 4, 1, 5}
 	fmt.Println("input lens", ilens)
 
 	// skip size starts at 0
@@ -41,7 +41,7 @@ func knothash(ll []int, ilens []int) int {
 		tmpCurrentPosition := currentPosition
 		for i := 0; i < revThisLen; i++ {
 			newList[i] = ll[tmpCurrentPosition]
-			tmpCurrentPosition = (tmpCurrentPosition + 1) % 5
+			tmpCurrentPosition = (tmpCurrentPosition + 1) % LEN
 		}
 		fmt.Println("newList filled", newList)
 
@@ -55,11 +55,11 @@ func knothash(ll []int, ilens []int) int {
 		tmpCurrentPosition = currentPosition
 		for i := 0; i < revThisLen; i++ {
 			ll[tmpCurrentPosition] = newList[i]
-			tmpCurrentPosition = (tmpCurrentPosition + 1) % 5
+			tmpCurrentPosition = (tmpCurrentPosition + 1) % LEN
 		}
 
 		fmt.Println("ll is now this", ll)
-		currentPosition = (currentPosition + revThisLen + skipSize) % 5
+		currentPosition = (currentPosition + revThisLen + skipSize) % LEN
 		fmt.Println("currentPosition has moved to", currentPosition)
 		skipSize++
 		fmt.Println("skipSize has increased and is now", skipSize)
@@ -82,7 +82,13 @@ func knothash(ll []int, ilens []int) int {
 }
 
 func main() {
-	ll := []int{0, 1, 2, 3, 4}
-	ilens := []int{3, 4, 1, 5}
+	//ll := []int{0, 1, 2, 3, 4}
+	//ilens := []int{3, 4, 1, 5}
+	ll := make([]int, 256)
+	for i := 0; i < 256; i++ {
+		ll[i] = i
+	}
+	fmt.Println(ll)
+	ilens := []int{129, 154, 49, 198, 200, 133, 97, 254, 41, 6, 2, 1, 255, 0, 191, 108}
 	knothash(ll, ilens)
 }
