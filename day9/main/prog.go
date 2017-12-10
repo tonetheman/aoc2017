@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
 
 type stack []int
 
@@ -96,6 +100,26 @@ func tests() {
 	//parse("{{<a!>},{<a!>},{<a!>},{<ab>}}") //3
 }
 
+func part1(filename string) {
+	// need to read from file gross parsing avoided
+	inf, err := os.Open(filename)
+	if err != nil {
+		fmt.Println("cannot open file", err)
+	}
+	// close it later
+	defer inf.Close()
+
+	// make a scanner to read in line by line
+	scanner := bufio.NewScanner(inf)
+	for scanner.Scan() {
+		text := scanner.Text()
+		fmt.Println(len(text))
+		fmt.Println("starting parse...")
+		parse(text)
+	}
+}
+
 func main() {
-	tests()
+	//tests()
+	part1("main\\part1.input")
 }
