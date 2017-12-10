@@ -1,7 +1,12 @@
 # tonys advent of code 2017
 -------------------------
 
-## Day 9
+## Day 9 (part2)
+Not hard at all since I made some good choices on part 1.
+
+Only had to add a counter into the place where I was counting garbage characters.
+
+## Day 9 (part1)
 First part of day 9 was more involved than I had originally thought. I started to try out antlr for go but decided it would take me longer to figure out antlr than just write it myself.
 
 The first version had the parsing all over the place. I took some time and split the parsing of the garbage from the parsing of the groups. Once I realized (aka read the problem) that I was going to need to keep up with the groups I added a stack. Got the answer on the first try once all the tests passed.

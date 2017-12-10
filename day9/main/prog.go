@@ -27,6 +27,7 @@ func parse(s string) {
 	var inGarbage = false
 	var ignoreNextRune = false
 	var groupCount = 0
+	var garbageCount = 0
 
 	// make a stack needed to keep up with groups
 	st := make(stack, 0)
@@ -50,6 +51,7 @@ func parse(s string) {
 				fmt.Println("got a ! setting ignoreNextRune to true")
 				ignoreNextRune = true
 			default:
+				garbageCount++
 				fmt.Println("in default", runeValue, "ignoring for inGarbage")
 				continue
 
@@ -80,6 +82,7 @@ func parse(s string) {
 	}
 
 	fmt.Println("end of parse groupCount", groupCount)
+	fmt.Println("gc (garbageCount)", garbageCount)
 }
 
 func tests() {
@@ -98,6 +101,13 @@ func tests() {
 	//parse("{{<ab>},{<ab>},{<ab>},{<ab>}}") //9
 	//parse("{{<!!>},{<!!>},{<!!>},{<!!>}}") // 9
 	//parse("{{<a!>},{<a!>},{<a!>},{<ab>}}") //3
+	//parse("<>") // gc0
+	//parse("<random characters>") // gc17
+	//parse("<<<<>") //gc3
+	//parse("<{!>}>") // gc2
+	//parse("<!!>") // gc0
+	//parse("<!!!>>") //gc0
+	//parse("<{o\"i!a,<{i<a>") //gc10
 }
 
 func part1(filename string) {
