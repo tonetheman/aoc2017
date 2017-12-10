@@ -1,6 +1,13 @@
 # tonys advent of code 2017
 -------------------------
 
+## Day 10
+The first part made sense and I did it fairly quickly.
+
+The second part of the problem was written really badly. The first example was completely unclear where the numbers were coming from. The changes for the algorithm were easy (just moved two variables to globals gross).
+
+Once I finally decided I understood the wording the problem was not hard.
+
 ## Day 9 (part2)
 Not hard at all since I made some good choices on part 1.
 
