@@ -24,40 +24,55 @@ func main() {
 	currentLensIndex := 0
 	fmt.Println("current lens index", currentLensIndex)
 
-	// amount we need to reverse
-	revThisLen := ilens[currentLensIndex]
-	fmt.Println("reverse this amount", revThisLen)
+	// loop count is for debugging
+	loopCount := 0
+	for {
+		fmt.Println("ll at start of loop:", ll)
 
-	// make a new list to hold the numbers we need to
-	// reverse
-	newList := make([]int, revThisLen)
-	fmt.Println("new List", newList)
+		// amount we need to reverse
+		revThisLen := ilens[currentLensIndex]
+		fmt.Println("reverse this amount", revThisLen)
 
-	// move those numbers into the list
-	// use a temporary so we do not mess up currentPositon (yet)
-	tmpCurrentPosition := currentPosition
-	for i := 0; i < revThisLen; i++ {
-		newList[i] = ll[tmpCurrentPosition]
-		tmpCurrentPosition = (tmpCurrentPosition + 1) % 5
-	}
-	fmt.Println("newList filled", newList)
-	// WTF ... seriously there must be an easier way to do
-	// this. wut a mess. for sorting go is shit
-	sort.Sort(sort.Reverse(sort.IntSlice(newList)))
-	fmt.Println("newList sorted", newList)
+		// make a new list to hold the numbers we need to
+		// reverse
+		newList := make([]int, revThisLen)
+		fmt.Println("new List", newList)
 
-	// now put the numbers back into the array
-	tmpCurrentPosition = currentPosition
-	for i := 0; i < revThisLen; i++ {
-		ll[tmpCurrentPosition] = newList[i]
-		tmpCurrentPosition = (tmpCurrentPosition + 1) % 5
-	}
+		// move those numbers into the list
+		// use a temporary so we do not mess up currentPositon (yet)
+		tmpCurrentPosition := currentPosition
+		for i := 0; i < revThisLen; i++ {
+			newList[i] = ll[tmpCurrentPosition]
+			tmpCurrentPosition = (tmpCurrentPosition + 1) % 5
+		}
+		fmt.Println("newList filled", newList)
+		// WTF ... seriously there must be an easier way to do
+		// this. wut a mess. for sorting go is shit
+		sort.Sort(sort.Reverse(sort.IntSlice(newList)))
+		fmt.Println("newList sorted", newList)
 
-	fmt.Println("ll is now this", ll)
-	currentPosition += revThisLen
-	fmt.Println("currentPosition has moved to", currentPosition)
-	skipSize++
-	fmt.Println("skipSize has increased and is now", skipSize)
-	currentLensIndex++
-	fmt.Println("current Lens index has increased", currentLensIndex)
+		// now put the numbers back into the array
+		tmpCurrentPosition = currentPosition
+		for i := 0; i < revThisLen; i++ {
+			ll[tmpCurrentPosition] = newList[i]
+			tmpCurrentPosition = (tmpCurrentPosition + 1) % 5
+		}
+
+		fmt.Println("ll is now this", ll)
+		currentPosition += revThisLen
+		fmt.Println("currentPosition has moved to", currentPosition)
+		skipSize++
+		fmt.Println("skipSize has increased and is now", skipSize)
+		currentLensIndex++
+		fmt.Println("current Lens index has increased", currentLensIndex)
+
+		fmt.Println("ll at end of loop", ll)
+		fmt.Println("------------------------")
+		loopCount++
+		if loopCount == 2 {
+			break
+		}
+
+	} // end of for loop
+
 }
