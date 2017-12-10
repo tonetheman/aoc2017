@@ -4,11 +4,10 @@ import (
 	"fmt"
 )
 
-func main() {
-
-	ll := [5]int{0, 1, 2, 3, 4}
+func knothash(ll []int, ilens []int) int {
+	//ll := [5]int{0, 1, 2, 3, 4}
 	fmt.Println(ll)
-	ilens := [4]int{3, 4, 1, 5}
+	//ilens := [4]int{3, 4, 1, 5}
 	fmt.Println("input lens", ilens)
 
 	// skip size starts at 0
@@ -79,4 +78,11 @@ func main() {
 	// final 2 numbers
 	fmt.Println(ll[0], ll[1])
 	fmt.Println("answer:", ll[0]*ll[1])
+	return ll[0] * ll[1]
+}
+
+func main() {
+	ll := []int{0, 1, 2, 3, 4}
+	ilens := []int{3, 4, 1, 5}
+	knothash(ll, ilens)
 }
