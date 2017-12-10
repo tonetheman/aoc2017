@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"sort"
 )
 
 func main() {
@@ -26,7 +25,7 @@ func main() {
 
 	// loop count is for debugging
 	loopCount := 0
-	for {
+	for loopCount < len(ilens) {
 		fmt.Println("ll at start of loop:", ll)
 
 		// amount we need to reverse
@@ -46,10 +45,12 @@ func main() {
 			tmpCurrentPosition = (tmpCurrentPosition + 1) % 5
 		}
 		fmt.Println("newList filled", newList)
-		// WTF ... seriously there must be an easier way to do
-		// this. wut a mess. for sorting go is shit
-		sort.Sort(sort.Reverse(sort.IntSlice(newList)))
-		fmt.Println("newList sorted", newList)
+
+		// reverse the list
+		for i, j := 0, len(newList)-1; i < j; i, j = i+1, j-1 {
+			newList[i], newList[j] = newList[j], newList[i]
+		}
+		fmt.Println("new list is now", newList)
 
 		// now put the numbers back into the array
 		tmpCurrentPosition = currentPosition
@@ -59,7 +60,7 @@ func main() {
 		}
 
 		fmt.Println("ll is now this", ll)
-		currentPosition += revThisLen
+		currentPosition = (currentPosition + revThisLen + skipSize) % 5
 		fmt.Println("currentPosition has moved to", currentPosition)
 		skipSize++
 		fmt.Println("skipSize has increased and is now", skipSize)
@@ -69,10 +70,13 @@ func main() {
 		fmt.Println("ll at end of loop", ll)
 		fmt.Println("------------------------")
 		loopCount++
-		if loopCount == 2 {
-			break
-		}
+		//if loopCount == 4 {
+		//		break
+		//	}
 
 	} // end of for loop
 
+	// final 2 numbers
+	fmt.Println(ll[0], ll[1])
+	fmt.Println("answer:", ll[0]*ll[1])
 }
