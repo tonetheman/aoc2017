@@ -119,16 +119,31 @@ func checkBalanced(node string) bool {
 	return true
 }
 
-func part2() {
-
-	for k, _ := range p {
-		//fmt.Println("checking balanced...")
-		if checkBalanced(k) == false {
-			fmt.Println(k, p[k])
+func sumNodeByName(nodeName string) int {
+	//fmt.Println("sumNodeByName started")
+	var n = p[nodeName]
+	//fmt.Println(n)
+	if n.leaf {
+		return n.weight
+	} else {
+		leafTotal := 0
+		for _, kidName := range n.kids {
+			leafTotal = leafTotal + sumNodeByName(kidName)
 		}
+		return n.weight + leafTotal
 	}
+}
 
-	//fmt.Println(checkBalanced("wklofr"))
+func part2() {
+	var rootName = "qibuqqg"
+	//fmt.Println(checkBalanced(rootName))
+	fmt.Println(p[rootName])
+	fmt.Println(sumNodeByName(rootName))
+
+	var level1Name = "oxxhpbs"
+	fmt.Println(p[level1Name])
+	fmt.Println(sumNodeByName(level1Name))
+
 }
 
 func main() {
@@ -137,6 +152,6 @@ func main() {
 	fmt.Println("done with input")
 	//fmt.Println(p)
 	//part1()
-	//part2()
-	checkBalanced("mbxvcsi")
+	part2()
+	//checkBalanced("mbxvcsi")
 }
