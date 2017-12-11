@@ -44,13 +44,20 @@ func dist(a, b Triple) int {
 
 func (i *InfHex) walk(s string) {
 	steps := strings.Split(s, ",")
+	maxDist := 0
 	for _, step := range steps {
 		cd := directionToTriple(step)
 		fmt.Println(cd)
 		i.currentPos.x += cd.x
 		i.currentPos.y += cd.y
 		i.currentPos.z += cd.z
+
+		tmp := dist(Triple{0, 0, 0}, i.currentPos)
+		if tmp > maxDist {
+			maxDist = tmp
+		}
 	}
+	fmt.Println("max dist", maxDist)
 }
 
 func check(s string) {
