@@ -1,6 +1,13 @@
 # tonys advent of code 2017
 -------------------------
 
+## Day 11
+Fairly easy today.
+
+Mainly from other experience I have had. I have written games (or failed prototypes) with hex coordinates before. So the resource was familar to me as was the subject.
+
+Nothing to crazy.
+
 ## Day 10
 The first part made sense and I did it fairly quickly.
 
