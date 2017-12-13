@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -39,24 +40,32 @@ func readFile(filename string) []connection {
 	return programs
 }
 
-// WTF golang no built in stack?
-type stack struct {
-	vec []int
+type lifo struct {
+	data []int
 }
 
-func (s stack) empty() bool {
-	return len(s.vec) == 0
+// WHAT I HAVE IS A LIFO
+func (s *lifo) push(val int) {
+	s.data = append(s.data, val)
 }
-func (s stack) peek() int {
-	return s.vec[len(s.vec)-1]
+func (s lifo) empty() bool {
+	return len(s.data) == 0
 }
-func (s stack) push(val int) {
-	s.vec = append(s.vec, val)
+func (s *lifo) pop() (int, error) {
+	if s.empty() {
+		// in my case -1 is nothing
+		// if this was a real stack
+		// then return an error
+		return -1, errors.New("empty stack")
+	}
+	var tmp int
+	// this pulls the last thing inserted
+	// then resets data to the rest of the list
+	tmp, s.data = s.data[0], s.data[1:]
+	return tmp, nil
 }
-func (s stack) pop() int {
-	tmp := s.vec[len(s.vec)-1]
-	s.vec = s.vec[:len(s.vec)-1]
-	return tmp
+func (s lifo) len() int {
+	return len(s.data)
 }
 
 func main() {
@@ -66,8 +75,10 @@ func main() {
 	var alreadyFound map[int]bool
 	alreadyFound = make(map[int]bool)
 	alreadyFound[0] = true
-	var myStack stack
-	stack.push(0)
-	lookingForDirects := stack.pop()
+	var myStack lifo
+	myStack.push(0)
+
+	lookingForDirects := myStack.pop()
+	fmt.Println(lookingForDirects)
 
 }
