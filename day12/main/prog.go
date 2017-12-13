@@ -68,6 +68,13 @@ func (s lifo) len() int {
 	return len(s.data)
 }
 
+func isAlreadyFound(af map[int]bool, lookingFor int) bool {
+	_, present := af[lookingFor]
+	// golang sucks for this type of stuff
+	// i think true means it is there
+	return present
+}
+
 func main() {
 	programs := readFile("test.input")
 
@@ -79,40 +86,55 @@ func main() {
 	}
 	fmt.Println(programMap)
 
-	// save off 0 into the stack
-	var ll lifo
-	ll.push(0)
-
+	// by prob definition 0 is already found
 	var alreadyFound map[int]bool
 	alreadyFound = make(map[int]bool)
 	// put 0 in the already found map
 	alreadyFound[0] = true
 
+	// save off 0 into the stack
+	var ll lifo
+	ll.push(0)
+
+	count := 0
 	fmt.Println("starting now....")
 	for {
 		if ll.empty() {
 			fmt.Println("lifo is empty")
 			break
+		} else {
+			fmt.Println("lifo is not empty keep going")
 		}
 		currentGuy, _ := ll.pop()
 		currentProgram := programMap[currentGuy]
+		fmt.Println("currentGuy from lifo is", currentGuy, currentProgram)
 		for _, childIndex := range currentProgram.children {
 			// find out if the child index is directly
 			// connected to anyone
 			childProgram := programMap[childIndex]
-			fmt.Println("child program", childProgram)
+			fmt.Println("child program of currentGuy", childProgram)
+			if !isAlreadyFound(alreadyFound, childIndex) {
+				ll.push(childIndex)
+				alreadyFound[childIndex] = true
+			}
+			// this is a connected person too check
 
 			for _, innerChildIndex := range childProgram.children {
 				fmt.Println("now checking inner child", innerChildIndex)
-				_, present := alreadyFound[innerChildIndex]
-				if !present {
+				if !isAlreadyFound(alreadyFound, innerChildIndex) {
+					fmt.Println("not in alreadyFound pushing on lifo and putting in alreadyFound", innerChildIndex)
 					ll.push(innerChildIndex)
+					alreadyFound[innerChildIndex] = true
 				}
 
 			}
 		}
-
-	}
+		fmt.Println("lifo at the end of loop", ll)
+		count++
+		if count == 1 {
+			break
+		}
+	} // end of while loop
 
 	fmt.Println("final already found", alreadyFound)
 }
