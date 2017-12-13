@@ -70,15 +70,49 @@ func (s lifo) len() int {
 
 func main() {
 	programs := readFile("test.input")
-	fmt.Println(programs[0])
+
+	var programMap map[int]connection
+	programMap = make(map[int]connection)
+	for _, p := range programs {
+		//fmt.Println(p)
+		programMap[p.parent] = p
+	}
+	fmt.Println(programMap)
+
+	// save off 0 into the stack
+	var ll lifo
+	ll.push(0)
 
 	var alreadyFound map[int]bool
 	alreadyFound = make(map[int]bool)
+	// put 0 in the already found map
 	alreadyFound[0] = true
-	var myStack lifo
-	myStack.push(0)
 
-	lookingForDirects := myStack.pop()
-	fmt.Println(lookingForDirects)
+	fmt.Println("starting now....")
+	for {
+		if ll.empty() {
+			fmt.Println("lifo is empty")
+			break
+		}
+		currentGuy, _ := ll.pop()
+		currentProgram := programMap[currentGuy]
+		for _, childIndex := range currentProgram.children {
+			// find out if the child index is directly
+			// connected to anyone
+			childProgram := programMap[childIndex]
+			fmt.Println("child program", childProgram)
 
+			for _, innerChildIndex := range childProgram.children {
+				fmt.Println("now checking inner child", innerChildIndex)
+				_, present := alreadyFound[innerChildIndex]
+				if !present {
+					ll.push(innerChildIndex)
+				}
+
+			}
+		}
+
+	}
+
+	fmt.Println("final already found", alreadyFound)
 }
