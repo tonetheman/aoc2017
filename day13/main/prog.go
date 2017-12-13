@@ -32,7 +32,19 @@ func readFile(filename string) []layer {
 	return layers
 }
 
+func findMaxScanner(layers []layer) int {
+	maxValue := -1
+	for _, val := range layers {
+		if val.layer_num > maxValue {
+			maxValue = val.layer_num
+		}
+	}
+	return maxValue
+}
+
 func main() {
 	layers := readFile("test.input")
 	fmt.Println(layers)
+	maxLayerNum := findMaxScanner(layers)
+	fmt.Println("max layer num", maxLayerNum)
 }
