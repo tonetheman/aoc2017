@@ -75,29 +75,18 @@ func isAlreadyFound(af map[int]bool, lookingFor int) bool {
 	return present
 }
 
-func main() {
-	//programs := readFile("test.input")
-	programs := readFile("part1.input")
-
-	// parse the input and save into better
-	// format
-	var programMap map[int]connection
-	programMap = make(map[int]connection)
-	for _, p := range programs {
-		//fmt.Println(p)
-		programMap[p.parent] = p
-	}
-	fmt.Println(programMap)
-
+// this function finds the group for the parent
+// then removes it from the programMap list
+func findOneGroup(programMap map[int]connection, parentIndex int) {
 	// by prob definition 0 is already found
 	var alreadyFound map[int]bool
 	alreadyFound = make(map[int]bool)
-	// put 0 in the already found map
-	alreadyFound[0] = true
+	// put parentIndex in the already found map
+	alreadyFound[parentIndex] = true
 
-	// save off 0 into the stack
+	// save off parentIndex into the stack
 	var ll lifo
-	ll.push(0)
+	ll.push(parentIndex)
 
 	count := 0
 	for {
@@ -139,4 +128,63 @@ func main() {
 
 	} // end of while looop
 	fmt.Println("len of af", len(alreadyFound))
+	fmt.Println("total programs", len(programMap))
+
+	// go through the list of programs
+	// found in this group and remove them
+	// from program map
+	for k := range alreadyFound {
+		delete(programMap, k)
+	}
+}
+
+func getNextKey(programMap map[int]connection) int {
+	var tmp int
+	for k := range programMap {
+		tmp = k
+		break
+	}
+	return tmp
+}
+
+func main() {
+	//programs := readFile("test.input")
+	programs := readFile("part1.input")
+
+	// parse the input and save into better
+	// format
+	var programMap map[int]connection
+	programMap = make(map[int]connection)
+	for _, p := range programs {
+		//fmt.Println(p)
+		programMap[p.parent] = p
+	}
+	fmt.Println(programMap)
+
+	var count = 0
+	for {
+		// get a key from the program map
+		// does not matter which really
+		nextParent := getNextKey(programMap)
+		fmt.Println("next parent", nextParent)
+
+		// find the group and remove it
+		// from the program map
+		findOneGroup(programMap, nextParent)
+		fmt.Println("after we found a group prgramMap len", len(programMap))
+		count++
+
+		if len(programMap) == 0 {
+			fmt.Println("out of programs!")
+			fmt.Println("count is", count)
+			break
+		}
+		if count == 300 {
+			break
+		}
+	}
+	// make 0 the parent
+	//findOneGroup(programMap, 0)
+	//fmt.Println("after we found a group prgramMap len", len(programMap))
+
 }

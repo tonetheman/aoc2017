@@ -1,6 +1,12 @@
 # tonys advent of code 2017
 -------------------------
 
+## Day 12 finished
+I wrote a lot and decided I had forgot my plan and deleted most of it.
+Once I did that the problem was not bad. I did have to come up with my own stack implementation. Still gross.
+
+Second part of the problem was a generalization of the first part.
+
 ## Day 12
 Problem seems easy. Go does not have a built in stack? I found an issue that bothers me about go. I could rely on some rando from the internet? Maybe that is the intention. OR I could on myself. I trust neither the random nor me to write the stack correctly.
 
