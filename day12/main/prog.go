@@ -76,8 +76,11 @@ func isAlreadyFound(af map[int]bool, lookingFor int) bool {
 }
 
 func main() {
-	programs := readFile("test.input")
+	//programs := readFile("test.input")
+	programs := readFile("part1.input")
 
+	// parse the input and save into better
+	// format
 	var programMap map[int]connection
 	programMap = make(map[int]connection)
 	for _, p := range programs {
@@ -97,44 +100,43 @@ func main() {
 	ll.push(0)
 
 	count := 0
-	fmt.Println("starting now....")
 	for {
+		fmt.Println("loop begin")
 		if ll.empty() {
-			fmt.Println("lifo is empty")
+			fmt.Println("ll is empty stopping")
 			break
-		} else {
-			fmt.Println("lifo is not empty keep going")
 		}
+
+		// look in lifo for first person
 		currentGuy, _ := ll.pop()
 		currentProgram := programMap[currentGuy]
-		fmt.Println("currentGuy from lifo is", currentGuy, currentProgram)
-		for _, childIndex := range currentProgram.children {
-			// find out if the child index is directly
-			// connected to anyone
-			childProgram := programMap[childIndex]
-			fmt.Println("child program of currentGuy", childProgram)
-			if !isAlreadyFound(alreadyFound, childIndex) {
-				ll.push(childIndex)
-				alreadyFound[childIndex] = true
-			}
-			// this is a connected person too check
+		fmt.Println("currentGuy", currentGuy, currentProgram)
 
-			for _, innerChildIndex := range childProgram.children {
-				fmt.Println("now checking inner child", innerChildIndex)
-				if !isAlreadyFound(alreadyFound, innerChildIndex) {
-					fmt.Println("not in alreadyFound pushing on lifo and putting in alreadyFound", innerChildIndex)
-					ll.push(innerChildIndex)
-					alreadyFound[innerChildIndex] = true
-				}
+		// find direct children of current Guy and mark them
+		// in the group and push them on the ll
+		for i := 0; i < len(currentProgram.children); i++ {
+			currentChildIndex := currentProgram.children[i]
+			fmt.Println("currentChildIndex", currentChildIndex)
 
+			_, present := alreadyFound[currentChildIndex]
+			if !present {
+				// !present is golang stupid way of
+				// checking hashmap
+				// they were not already in the group
+				// mark them and push onto lifo
+				alreadyFound[currentChildIndex] = true
+				ll.push(currentChildIndex)
 			}
 		}
-		fmt.Println("lifo at the end of loop", ll)
-		count++
-		if count == 1 {
+		count++ // used to stop run away bad program
+		fmt.Println("EOL: ll", ll)
+		fmt.Println("EOL: af", alreadyFound)
+		fmt.Println("----------")
+		if count == 10000 {
+			fmt.Println("BROKE FROM COUNTER")
 			break
 		}
-	} // end of while loop
 
-	fmt.Println("final already found", alreadyFound)
+	} // end of while looop
+	fmt.Println("len of af", len(alreadyFound))
 }
