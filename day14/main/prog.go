@@ -138,7 +138,24 @@ func tCv(s string) string {
 	return ts
 }
 
-func main() {
+func computeUsed(s string) int {
+	sKey := s + "-0"
+	res := knotHashRound(sKey)
+	bitString := ""
+	for i := 0; i < len(res); i++ {
+		ts := fmt.Sprintf("%08b", res[i])
+		bitString += ts
+	}
+	fmt.Println("so far", bitString)
+	totalUsed := 0
+	for _, val := range bitString {
+		totalUsed += (int(val) - 48)
+	}
+	fmt.Println("totalUsed", totalUsed)
+	return totalUsed
+}
+
+func messingAround() {
 	// checking that i know how to use sprintf
 	//sKey := "flqrgnkx"
 	//for i := 0; i < 128; i++ {
@@ -155,4 +172,8 @@ func main() {
 	fmt.Printf("%b\n", 212)
 	fmt.Printf("%08b\n", 85) // this is a good format
 
+}
+
+func main() {
+	computeUsed("flqrgnkx")
 }
