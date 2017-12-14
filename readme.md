@@ -1,6 +1,16 @@
 # tonys advent of code 2017
 -------------------------
 
+## Day 14
+For part1 I was happy I had spent some extra time on Day 10. KnotHash looked interesting enough that I had guessed I would see it again. So pulling the code from day10 was fairly easy. I renamed some of the routines and pulled out debug code. But it made this part of the problem easy.
+
+For golang things from part1 I used Sprintf more than I had before. But I knew that from other languages so meh.
+
+Part2 is a variation of day12 but it is involved enough that I am out of time for the moment and will come back to it.
+
+## Day 13
+Skipped for the moment
+
 ## Day 12 finished
 I wrote a lot and decided I had forgot my plan and deleted most of it.
 Once I did that the problem was not bad. I did have to come up with my own stack implementation. Still gross.
