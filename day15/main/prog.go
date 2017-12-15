@@ -28,12 +28,17 @@ func main() {
 		resB := gen(bInitialPrev, bFactor)
 		fmt.Println(resA, resB)
 
+		bytesA := resA.Bytes()
+		for _, val := range bytesA {
+			fmt.Printf("%b", val)
+		}
+
 		// move values over
 		aInitialPrev.Set(&resA)
 		bInitialPrev.Set(&resB)
 		fmt.Println("----------------")
 		count++
-		if count == 5 {
+		if count == 1 {
 			break
 		}
 	}
