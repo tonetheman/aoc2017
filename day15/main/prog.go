@@ -1,15 +1,24 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/big"
+)
 
 func main() {
 
-	const aFactor = 16807
-	const bFactor = 48271
+	var aFactor int64 = 16807
+	const bFactor int64 = 48271
 
-	const aStart = 65
-	const bStart = 8921
+	const aStart int64 = 65
+	const bStart int64 = 8921
 
-	fmt.Println(aFactor * aStart, bFactor * bStart)
+	bigA := big.NewInt(aFactor * aStart)
+	bigB := big.NewInt(bFactor * bStart)
+	fmt.Println(bigA, bigB)
 
+	// not sure what to do with this number
+	var divisor = big.NewInt(2147483647)
+	var res big.Int
+	fmt.Println(res.Rem(bigA, divisor))
 }
