@@ -124,38 +124,6 @@ func findScannerIndex(a []int) int {
 	return -1
 }
 
-/*
-func moveAllScanners(ll [][]int) {
-	for i := 0; i < len(ll); i++ {
-		if len(ll[i]) > 0 {
-			currentIndex := findScannerIndex(ll[i])
-			if ll[i][currentIndex] == SCANNER_DOWN {
-				newIndex := currentIndex + 1
-				if newIndex == len(ll[i]) {
-					// change to scanner up
-					ll[i][currentIndex] = 0
-					// not sure about this yet -2
-					ll[i][newIndex-2] = SCANNER_UP
-				} else {
-					ll[i][currentIndex] = 0
-					ll[i][newIndex] = SCANNER_DOWN
-				}
-			} else {
-				// scanner up case
-				newIndex := currentIndex - 1
-				if newIndex == -1 {
-					// change scanner to up
-				} else {
-					// just move it
-					ll[i][currentIndex] = 0
-					ll[i][newIndex] = SCANNER_UP
-				}
-			}
-		}
-	}
-}
-*/
-
 func sim1a(ll []layer2) {
 	count := 0
 	playerPosition := -1
@@ -188,69 +156,6 @@ func sim1a(ll []layer2) {
 	fmt.Println("total cost", cost)
 }
 
-/*
-func sim(ll [][]int) {
-	fmt.Println("sim started...")
-	insertScanners(ll)
-	fmt.Println("inserting scanners (9)...")
-	fmt.Println(ll)
-	fmt.Println("starting loop...")
-	count := 0
-	playerPosition := -1 //player starts off the grid
-	cost := 0
-	for {
-		fmt.Println("SECOND", count)
-		// move player and see if he is caught
-		playerPosition++
-		fmt.Println("player position is", playerPosition)
-		fmt.Println(ll)
-
-		// if the layer has anything in it
-		if len(ll[playerPosition]) > 0 {
-
-			// check if the layer has a scanner
-			if ll[playerPosition][0] == SCANNER_DOWN ||
-				ll[playerPosition][0] == SCANNER_UP {
-				// if caught you incur depth * range
-				cost += (playerPosition) * len(ll[playerPosition])
-				fmt.Println("cost added", cost)
-
-			}
-		}
-
-		// now move all the scanners
-		fmt.Println("calling move all scanners...")
-		moveAllScanners(ll)
-		fmt.Println(ll)
-		fmt.Println("---------------")
-		count++
-		if count == 3 {
-			break
-		}
-	}
-	fmt.Println("end sim")
-}
-*/
-
-/*
-func part1() {
-
-	layers := readFile("test.input")
-	fmt.Println(layers)
-	maxLayerNum := findMaxScanner(layers)
-	fmt.Println("max layer num", maxLayerNum)
-	ll := make([][]int, maxLayerNum+1)
-	for i := 0; i < len(layers); i++ {
-		target := layers[i]
-		ll[target.layer_num] = make([]int, target.depth)
-	}
-	fmt.Println(ll)
-
-	//sim(ll)
-
-}
-*/
-
 func testdepth3() {
 	l0 := newLayer2(0, 4)
 	count := 0
@@ -278,16 +183,6 @@ func part1a() {
 	//fmt.Println(ll)
 	sim1a(ll)
 
-	/*
-		ll := make([][]int, maxLayerNum+1)
-		for i := 0; i < len(layers); i++ {
-			target := layers[i]
-			ll[target.layer_num] = make([]int, target.depth)
-		}
-		fmt.Println(ll)
-
-		sim(ll)
-	*/
 }
 
 func main() {
