@@ -29,8 +29,8 @@ class Layer:
             if self.scanner_pos == 0:
                 self.direction = DOWN
                 self.data[self.scanner_pos] = 0
-                self.data[1] = 9
                 self.scanner_pos = 1
+                self.data[self.scanner_pos] = 9
             else:
                 self.data[self.scanner_pos] = 0
                 self.scanner_pos = self.scanner_pos-1
@@ -56,7 +56,12 @@ def tick():
         layer.step()
         print(layer)
 
+count = 0
 for i in range(100):
     tick()
     print("-----")
+    count = count + 1
+    if count == 3:
+        break
+    
 
