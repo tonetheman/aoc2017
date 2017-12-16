@@ -3,6 +3,14 @@ DOWN = 1
 UP = 2
 
 class Layer:
+    def reset(self):
+        self.direction = DOWN
+        self.data = []
+        for i in range(self.depth):
+            self.data.append(0)
+        if self.depth>0:
+            self.data[0] = 9
+        self.scanner_pos = 0        
     def __init__(self,layer_number,depth):
         self.layer_number = layer_number
         self.depth = depth
@@ -13,9 +21,13 @@ class Layer:
         if self.depth>0:
             self.data[0] = 9
         self.scanner_pos = 0
+        if layer_number==0:
+            print("dbg:Layer ctor",self.scanner_pos)
     def cost(self):
         return self.depth * self.layer_number
     def step(self):
+        if self.layer_number==0:
+            print("dbg:Layer step called",self.depth,self.direction)
         if self.depth==0:
             return
         if self.direction == DOWN:
@@ -29,7 +41,10 @@ class Layer:
                 self.scanner_pos = self.scanner_pos + 1
                 self.data[self.scanner_pos] = 9
         elif self.direction == UP:
+            if self.layer_number==0:
+                print("dbg:Layer dir is up",self.scanner_pos)
             if self.scanner_pos == 0:
+                print("dbg:Layer dir isup and scanner pos is 0")
                 self.direction = DOWN
                 self.data[self.scanner_pos] = 0
                 self.scanner_pos = 1
@@ -61,8 +76,10 @@ def tick():
         if count == 0:
             print("dbglayer0",layer)
         count = count + 1
-        
+
 def test_case(delay):
+    for l in layers:
+        l.reset()
     count = 0
     person = -1 # the person is at layer -1 (not on the board)
     total_cost = 0
@@ -158,7 +175,7 @@ def part1():
     print("total cost is",total_cost)
 
 
-for i in range(2):
+for i in range(11):
     caught,cost = test_case(i)
     if not caught:
         print "GOT IT",i
