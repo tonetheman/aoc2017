@@ -59,10 +59,66 @@ def tick():
         layer.step()
         print(layer)
 
+def test_case():
+    count = 0
+    person = -1 # the person is at layer -1 (not on the board)
+    total_cost = 0
+    for i in range(7):
+        print "start of tick"
+        print layers
+        person = person + 1
+        print "person moves into",person
+        if len(layers[person].data)>0:
+            if layers[person].data[0] ==9:
+                print "COST here"
+                total_cost = total_cost + layers[person].cost()
+        print "tick happens"
+        tick() # this moves the scanners
+        print("-----")
+        print()
+        count = count + 1
+        if count == 7:
+            break
+        
+
+    print "total cost is",total_cost
+
+def read_input_file(filename):
+    data = open(filename,"r").readlines()
+    input_layers = []
+    for i in range(len(data)):
+        data[i] = data[i].strip()
+        d= data[i].split(":")
+        input_layers.append(Layer(int(d[0]), int(d[1])))
+    return input_layers
+
+input_layers = read_input_file("part1.input")
+# find max layer number in the input
+max_layer_num = 0
+for l in input_layers:
+    if l.layer_number > max_layer_num:
+        max_layer_num = l.layer_number
+print("max layer number is",max_layer_num)
+# now get the layers setup like the test case
+layers =[]
+# routine that will find a layer if read from input
+def find_input_layer(i):
+    for l in input_layers:
+        if l.layer_number==i:
+            return l
+    # if you do not find one return None
+    return None
+for i in range(max_layer_num+1):
+    l = find_input_layer(i)
+    if l is  None:
+        layers.append(Layer(i,0))
+    else:
+        layers.append(l)
+# now layers looks like the test case
 count = 0
 person = -1 # the person is at layer -1 (not on the board)
 total_cost = 0
-for i in range(7):
+for i in range(89):
     print "start of tick"
     print layers
     person = person + 1
@@ -76,7 +132,7 @@ for i in range(7):
     print("-----")
     print()
     count = count + 1
-    if count == 7:
+    if count == 89:
         break
     
 
