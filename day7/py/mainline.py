@@ -2,7 +2,7 @@
 inf = open("part1.input","r")
 data = inf.readlines()
 import string
-data = map(string.strip,data)
+data = map(str.strip,data)
 inf.close()
 
 # print data
