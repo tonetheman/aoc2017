@@ -32,22 +32,24 @@ func pb(b []byte) {
 
 func main() {
 	// test case
-	var aInitialPrev = big.NewInt(65)
-	var bInitialPrev = big.NewInt(8921)
+	//var aInitialPrev = big.NewInt(65)
+	//var bInitialPrev = big.NewInt(8921)
 
 	// part1
-	//var aInitialPrev = big.NewInt(618)
-	//var bInitialPrev = big.NewInt(814)
-	count := 0
-	matchCount := 0
+	var aInitialPrev = big.NewInt(618)
+	var bInitialPrev = big.NewInt(814)
+	count := 0      // debug counter
+	matchCount := 0 // this is the problem requirement
 	for {
 
 		var resA big.Int
 		// generate for A first
 		for {
+			// generate first
 			resA = gen(aInitialPrev, aFactor)
 			// check that we are divisible evenly by 4
 			var chk4 big.Int
+			// this does the resA % 4
 			chk4.Mod(&resA, four)
 			if chk4.Cmp(zero) == 0 {
 				// this is good
