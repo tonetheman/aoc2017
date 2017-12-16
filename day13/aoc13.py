@@ -55,10 +55,13 @@ layers = [
     ]
 
 def tick():
+    count = 0
     for layer in layers:
         layer.step()
-        print(layer)
-
+        if count == 0:
+            print("dbglayer0",layer)
+        count = count + 1
+        
 def test_case(delay):
     count = 0
     person = -1 # the person is at layer -1 (not on the board)
@@ -66,8 +69,8 @@ def test_case(delay):
     max_loop = delay+ 7
     got_caught = False
     for i in range(max_loop):
-        print "start of tick"
-        print layers
+        print "start of tick",count
+        # print layers
 
         if delay==0:
             person = person + 1
@@ -77,10 +80,11 @@ def test_case(delay):
                     print "COST here"
                     got_caught = True
                     total_cost = total_cost + layers[person].cost()
-        print "tick happens"
+
+        print("tick happens")
         tick() # this moves the scanners
-        print("-----")
-        print()
+        #print("-----")
+        #print()
 
         #mark down the dely
         if delay!=0:
@@ -89,10 +93,12 @@ def test_case(delay):
 
         count = count + 1
         if count == max_loop:
+            print "breaking for count"
             break
         
 
     print "total cost is",total_cost
+    print ""
     return (got_caught,total_cost)
 
 def read_input_file(filename):
@@ -152,7 +158,7 @@ def part1():
     print("total cost is",total_cost)
 
 
-for i in range(20):
+for i in range(2):
     caught,cost = test_case(i)
     if not caught:
         print "GOT IT",i
