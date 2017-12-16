@@ -51,9 +51,9 @@ def parse_data_line(d):
             n.children.append(ChildNode(c,-1))    
 
 def lookup_all_children(n):
-    print n.name
+    print(n.name)
     for c in n.children:
-        print "\t",all_nodes[c.name]
+        print("\t",all_nodes[c.name])
 
 for d in data:
     parse_data_line(d)
@@ -89,34 +89,34 @@ def sum_child_branch(child_name):
 def with_test_input():
     fill_out_child_list_indexes()
     root_name = "tknk"
-    print all_nodes[root_name]
+    print( all_nodes[root_name])
     for c in all_nodes[root_name].children:
         w0 = sum_child_branch(c.name)
-        print "w0 is",c.name, w0
+        print("w0 is",c.name, w0)
 
 fill_out_child_list_indexes()
 root_name = "qibuqqg"
-print all_nodes[root_name]
+print(all_nodes[root_name])
 for c in all_nodes[root_name].children:
         w0 = sum_child_branch(c.name)
-        print "w0 is",c.name, w0
+        print("w0 is",c.name, w0)
 
-print "wrong program at root", all_nodes["dwggjb"]
+print("wrong program at root", all_nodes["dwggjb"])
 
 level1_name = "dwggjb"
 for c in all_nodes[level1_name].children:
     w0 = sum_child_branch(c.name)
-    print "w0 is",c.name,w0
+    print("w0 is",c.name,w0)
 
-print "wrong program at level1", all_nodes["wknuyhc"]
+print("wrong program at level1", all_nodes["wknuyhc"])
 
 level2 = "wknuyhc"
 for c in all_nodes[level2].children:
     w0 = sum_child_branch(c.name)
-    print "w0 is",c.name,w0
+    print("w0 is",c.name,w0)
 
-print "wrong program at level2", all_nodes["egbzge"]
+print("wrong program at level2", all_nodes["egbzge"])
 level3 = "egbzge"
 for c in all_nodes[level3].children:
     w0 = sum_child_branch(c.name)
-    print "w0 is",c.name,w0
+    print("w0 is",c.name,w0)
