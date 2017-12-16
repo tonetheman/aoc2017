@@ -8,73 +8,12 @@ import (
 	"strings"
 )
 
-const SCANNER_DOWN = 9
-const SCANNER_UP = 8
+// got this from the problm
+const maxLayer = 6
 
 type layer struct {
-	layer_num int
-	depth     int
-}
-
-type layer2 struct {
-	layerNum  int
-	depth     int
-	direction int
-	data      []int
-}
-
-func newLayer2(layerNum int, depth int) layer2 {
-	var tmp layer2
-	tmp.layerNum = layerNum
-	tmp.depth = depth
-	tmp.direction = SCANNER_DOWN
-	tmp.data = make([]int, depth)
-	if depth > 0 {
-		tmp.data[0] = 9
-	}
-	return tmp
-}
-func (ll layer2) findScanner() int {
-	for idx, val := range ll.data {
-		if val == SCANNER_DOWN || val == SCANNER_UP {
-			return idx
-		}
-	}
-	return -1
-}
-func (ll *layer2) step() {
-	if ll.depth == 0 || len(ll.data) == 0 {
-		return
-	}
-	scannerIdx := ll.findScanner()
-	if scannerIdx == -1 {
-		return
-	}
-	if ll.direction == SCANNER_DOWN {
-		newIdx := scannerIdx + 1
-		if newIdx == len(ll.data) {
-			// at the end reverse direction
-			newIdx = scannerIdx - 1
-			ll.data[scannerIdx] = 0
-			ll.data[newIdx] = 9
-			ll.direction = SCANNER_UP
-		} else {
-			ll.data[scannerIdx] = 0
-			ll.data[newIdx] = 9
-		}
-	} else if ll.direction == SCANNER_UP {
-		newIdx := scannerIdx - 1
-		if newIdx == -1 {
-			// at the top reverse direction
-			newIdx = 1
-			ll.data[scannerIdx] = 0
-			ll.data[newIdx] = 9
-			ll.direction = SCANNER_DOWN
-		} else {
-			ll.data[scannerIdx] = 0
-			ll.data[newIdx] = 9
-		}
-	}
+	layerNum int
+	depth    int
 }
 
 func readFile(filename string) []layer {
@@ -96,95 +35,28 @@ func readFile(filename string) []layer {
 	return layers
 }
 
-func findMaxScanner(layers []layer) int {
-	maxValue := -1
-	for _, val := range layers {
-		if val.layer_num > maxValue {
-			maxValue = val.layer_num
-		}
-	}
-	return maxValue
+// stupid hard code
+// this will only work for test data
+// TODO: fix
+func fillGapsInData(layers []layer) []layer {
+	tmpLayers := make([]layer, 0)
+	tmpLayers = append(tmpLayers, layers[0])
+	tmpLayers = append(tmpLayers, layers[1])
+	tmpLayers = append(tmpLayers, layer{0, 0})
+	tmpLayers = append(tmpLayers, layer{0, 0})
+	tmpLayers = append(tmpLayers, layers[2])
+	tmpLayers = append(tmpLayers, layer{0, 0})
+	tmpLayers = append(tmpLayers, layers[3])
+	return tmpLayers
 }
 
-func insertScanners(ll [][]int) {
-	for i := 0; i < len(ll); i++ {
-		target := ll[i]
-		if len(target) > 0 {
-			target[0] = SCANNER_DOWN
-		}
-	}
-}
-
-func findScannerIndex(a []int) int {
-	for i := 0; i < len(a); i++ {
-		if a[i] == SCANNER_DOWN || a[i] == SCANNER_UP {
-			return i
-		}
-	}
-	return -1
-}
-
-func sim1a(ll []layer2) {
-	count := 0
-	playerPosition := -1
-	cost := 0
-	for {
-		fmt.Println("top of loop")
-
-		playerPosition++
-		fmt.Println("playerPosition", playerPosition)
-		fmt.Println("current layers", ll)
-		if len(ll[playerPosition].data) > 0 {
-			if ll[playerPosition].data[0] == 9 {
-				cost += ll[playerPosition].layerNum * ll[playerPosition].depth
-				fmt.Println("adjust costed now", cost)
-			}
-		}
-
-		fmt.Println("moving scanners")
-		for _, val := range ll {
-			val.step()
-		}
-
-		fmt.Println()
-
-		count++
-		if count == 7 {
-			break
-		}
-	} // end of for loop
-	fmt.Println("total cost", cost)
-}
-
-func testdepth3() {
-	l0 := newLayer2(0, 4)
-	count := 0
-	for {
-		fmt.Println(l0)
-		l0.step()
-		count++
-		if count > 10 {
-			break
-		}
-	}
-
-}
-
-func part1a() {
+func part1() {
 	layers := readFile("test.input")
-	maxLayerNum := findMaxScanner(layers)
-	ll := make([]layer2, maxLayerNum+1)
-	for i := 0; i < len(layers); i++ {
-		// this is the input
-		target := layers[i]
-		ll[target.layer_num] = newLayer2(target.layer_num, target.depth)
-	}
-
-	//fmt.Println(ll)
-	sim1a(ll)
+	layers = fillGapsInData(layers)
+	fmt.Println(layers)
 
 }
 
 func main() {
-	testdepth3()
+	part1()
 }
