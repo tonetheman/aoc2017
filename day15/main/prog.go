@@ -26,9 +26,12 @@ func pb(b []byte) {
 }
 
 func main() {
+	// test case
+	//var aInitialPrev = big.NewInt(65)
+	//var bInitialPrev = big.NewInt(8921)
 
-	var aInitialPrev = big.NewInt(65)
-	var bInitialPrev = big.NewInt(8921)
+	var aInitialPrev = big.NewInt(618)
+	var bInitialPrev = big.NewInt(814)
 	count := 0
 	matchCount := 0
 	for {
