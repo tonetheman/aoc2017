@@ -1,5 +1,11 @@
 
 
+1079 is the answer
+
+it is 1086-7
+i can see the tree is off by 7
+and they wanted the top level difference (where it was not wrong)
+
 this is not right: 89451
 
 I thought this guy is not balanced: 
