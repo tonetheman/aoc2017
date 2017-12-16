@@ -59,29 +59,41 @@ def tick():
         layer.step()
         print(layer)
 
-def test_case():
+def test_case(delay):
     count = 0
     person = -1 # the person is at layer -1 (not on the board)
     total_cost = 0
-    for i in range(7):
+    max_loop = delay+ 7
+    got_caught = False
+    for i in range(max_loop):
         print "start of tick"
         print layers
-        person = person + 1
-        print "person moves into",person
-        if len(layers[person].data)>0:
-            if layers[person].data[0] ==9:
-                print "COST here"
-                total_cost = total_cost + layers[person].cost()
+
+        if delay==0:
+            person = person + 1
+            print "person moves into",person,layers[person]
+            if len(layers[person].data)>0:
+                if layers[person].data[0] ==9:
+                    print "COST here"
+                    got_caught = True
+                    total_cost = total_cost + layers[person].cost()
         print "tick happens"
         tick() # this moves the scanners
         print("-----")
         print()
+
+        #mark down the dely
+        if delay!=0:
+            print "not putting person in new delay is",delay,delay-1
+            delay = delay -1
+
         count = count + 1
-        if count == 7:
+        if count == max_loop:
             break
         
 
     print "total cost is",total_cost
+    return (got_caught,total_cost)
 
 def read_input_file(filename):
     data = open(filename,"r").readlines()
@@ -123,12 +135,12 @@ def part1():
         print "start of tick"
         print layers
         person = person + 1
-        print "person moves into",person
+        print("person moves into",person)
         if len(layers[person].data)>0:
             if layers[person].data[0] ==9:
                 print "COST here"
                 total_cost = total_cost + layers[person].cost()
-        print "tick happens"
+        print("tick happens")
         tick() # this moves the scanners
         print("-----")
         print()
@@ -137,4 +149,12 @@ def part1():
             break
         
 
-    print "total cost is",total_cost
+    print("total cost is",total_cost)
+
+
+for i in range(20):
+    caught,cost = test_case(i)
+    if not caught:
+        print "GOT IT",i
+        break
+    
