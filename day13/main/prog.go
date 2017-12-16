@@ -14,6 +14,7 @@ const maxLayer = 6
 type layer struct {
 	layerNum int
 	depth    int
+	scanner  int
 }
 
 func readFile(filename string) []layer {
@@ -30,7 +31,8 @@ func readFile(filename string) []layer {
 		res := strings.Split(text, ": ")
 		layerNumber, _ := strconv.Atoi(res[0])
 		depth, _ := strconv.Atoi(res[1])
-		layers = append(layers, layer{layerNumber, depth})
+		layers = append(layers,
+			layer{layerNumber, depth, 0})
 	}
 	return layers
 }
@@ -42,10 +44,10 @@ func fillGapsInData(layers []layer) []layer {
 	tmpLayers := make([]layer, 0)
 	tmpLayers = append(tmpLayers, layers[0])
 	tmpLayers = append(tmpLayers, layers[1])
-	tmpLayers = append(tmpLayers, layer{0, 0})
-	tmpLayers = append(tmpLayers, layer{0, 0})
+	tmpLayers = append(tmpLayers, layer{0, 0, 0})
+	tmpLayers = append(tmpLayers, layer{0, 0, 0})
 	tmpLayers = append(tmpLayers, layers[2])
-	tmpLayers = append(tmpLayers, layer{0, 0})
+	tmpLayers = append(tmpLayers, layer{0, 0, 0})
 	tmpLayers = append(tmpLayers, layers[3])
 	return tmpLayers
 }
