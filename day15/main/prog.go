@@ -18,28 +18,41 @@ func gen(prev *big.Int, factor *big.Int) big.Int {
 	return res2
 }
 
+func pb(b []byte) {
+	for index, val := range b {
+		fmt.Printf("index: %d: %08b ", index, val)
+	}
+	fmt.Println()
+}
+
 func main() {
 
 	var aInitialPrev = big.NewInt(65)
 	var bInitialPrev = big.NewInt(8921)
 	count := 0
+	matchCount := 0
 	for {
 		resA := gen(aInitialPrev, aFactor)
 		resB := gen(bInitialPrev, bFactor)
-		fmt.Println(resA, resB)
+		//fmt.Println(resA, resB)
 
 		bytesA := resA.Bytes()
-		for _, val := range bytesA {
-			fmt.Printf("%b", val)
+		bytesB := resB.Bytes()
+		//pb(bytesA)
+		//pb(bytesB)
+		if bytesA[len(bytesA)-1] == bytesB[len(bytesB)-1] {
+			if bytesA[len(bytesA)-2] == bytesB[len(bytesB)-2] {
+				matchCount++
+			}
 		}
-
 		// move values over
 		aInitialPrev.Set(&resA)
 		bInitialPrev.Set(&resB)
-		fmt.Println("----------------")
+		//fmt.Println("----------------")
 		count++
-		if count == 1 {
+		if count == 40000000 {
 			break
 		}
 	}
+	fmt.Println("match count", matchCount)
 }
