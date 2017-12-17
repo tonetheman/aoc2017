@@ -1,62 +1,32 @@
 package main
 
-import (
-	"bufio"
-	"fmt"
-	"os"
-	"strconv"
-	"strings"
+const (
+	down = 1
+	up   = 2
 )
 
-// got this from the problm
-const maxLayer = 6
-
-type layer struct {
-	layerNum int
-	depth    int
+// Layer holds the info about each scanner layer
+type Layer struct {
+	layerNumber     int
+	depth           int
+	direction       int
+	data            []int
+	scannerPos      int
+	almostDoneIndex int
 }
 
-func readFile(filename string) []layer {
-	inf, err := os.Open(filename)
-	if err != nil {
-		fmt.Println("cannot open file", err)
-	}
-	// close it later
-	defer inf.Close()
-	layers := make([]layer, 0)
-	scanner := bufio.NewScanner(inf)
-	for scanner.Scan() {
-		text := scanner.Text()
-		res := strings.Split(text, ": ")
-		layerNumber, _ := strconv.Atoi(res[0])
-		depth, _ := strconv.Atoi(res[1])
-		layers = append(layers, layer{layerNumber, depth})
-	}
-	return layers
-}
-
-// stupid hard code
-// this will only work for test data
-// TODO: fix
-func fillGapsInData(layers []layer) []layer {
-	tmpLayers := make([]layer, 0)
-	tmpLayers = append(tmpLayers, layers[0])
-	tmpLayers = append(tmpLayers, layers[1])
-	tmpLayers = append(tmpLayers, layer{0, 0})
-	tmpLayers = append(tmpLayers, layer{0, 0})
-	tmpLayers = append(tmpLayers, layers[2])
-	tmpLayers = append(tmpLayers, layer{0, 0})
-	tmpLayers = append(tmpLayers, layers[3])
-	return tmpLayers
-}
-
-func part1() {
-	layers := readFile("test.input")
-	layers = fillGapsInData(layers)
-	fmt.Println(layers)
-
+// NewLayer - return a new _layer based on what you pass
+func NewLayer(layerNumber int, depth int) Layer {
+	var tmp Layer
+	tmp.layerNumber = layerNumber
+	tmp.depth = depth
+	tmp.direction = down
+	tmp.data = make([]int, depth)
+	tmp.scannerPos = 0
+	tmp.almostDoneIndex = depth - 1
+	return tmp
 }
 
 func main() {
-	part1()
+
 }
