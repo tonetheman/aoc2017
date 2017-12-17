@@ -1,6 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
 
 const (
 	down = 1
@@ -92,6 +98,36 @@ func layerTest() {
 	}
 }
 
+func readInputfile(filename string) []Layer {
+	inf, err := os.Open(filename)
+	if err != nil {
+		fmt.Println("cannot open file", err)
+	}
+	// close it later
+	defer inf.Close()
+
+	layers := make([]Layer, 0)
+	scanner := bufio.NewScanner(inf)
+	for scanner.Scan() {
+		// split the text line on the colon
+		text := scanner.Text()
+		snums := strings.Split(text, ":")
+
+		// convert the text to numbers watch the trims
+		// cause go is picky
+		num1, _ := strconv.Atoi(strings.Trim(snums[0], ""))
+		num2, _ := strconv.Atoi(strings.Trim(snums[1], " "))
+		//fmt.Println(snums[0], snums[1], num1, num2)
+
+		// make a new layer for what we just read
+		layers = append(layers, NewLayer(num1, num2))
+	}
+	//fmt.Println(layers)
+	return layers
+}
+
 func main() {
-	layerTest()
+	//layerTest()
+	readInputfile("part1.input")
+
 }
