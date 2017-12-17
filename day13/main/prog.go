@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -126,8 +127,49 @@ func readInputfile(filename string) []Layer {
 	return layers
 }
 
-func main() {
-	//layerTest()
-	readInputfile("part1.input")
+func findMaxLayerNum(layers []Layer) int {
+	maxLayerNum := 0
+	for _, ll := range layers {
+		if ll.layerNumber > maxLayerNum {
+			maxLayerNum = ll.layerNumber
+		}
+	}
+	return maxLayerNum
+}
 
+func findALayer(layers []Layer, layerNum int) (Layer, error) {
+	for _, ll := range layers {
+		if ll.layerNumber == layerNum {
+			return ll, nil
+		}
+	}
+	return NewLayer(0, 0), errors.New("invalid layernumber")
+}
+
+func part2() {
+	inputLayers := readInputfile("part1.input")
+	maxLayerNum := findMaxLayerNum(inputLayers)
+	layers := make([]Layer, 0)
+	for i := 0; i < maxLayerNum+1; i++ {
+		l, err := findALayer(inputLayers, i)
+		if err != nil {
+			layers = append(layers, NewLayer(i, 0))
+		} else {
+			layers = append(layers, l)
+		}
+	}
+
+	// now do the work
+	for i := 0; i < 100; i++ {
+
+		// clear the layers
+		for _, ll := range layers {
+			ll.reset()
+		}
+
+	}
+
+}
+func main() {
+	part2()
 }
