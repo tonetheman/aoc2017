@@ -45,30 +45,30 @@ func (ll Layer) repr() {
 	fmt.Println()
 }
 func (ll *Layer) step() {
-	fmt.Println("\tstep is called for", ll.layerNumber, ll.scannerPos)
+	//fmt.Println("\tstep is called for", ll.layerNumber, ll.scannerPos)
 	if ll.depth == 0 {
-		fmt.Println("\treturning layer is empty")
+		//fmt.Println("\treturning layer is empty")
 		return
 	}
 
 	if ll.direction == down {
-		fmt.Println("\tdir is down for", ll.layerNumber)
+		//fmt.Println("\tdir is down for", ll.layerNumber)
 		if ll.scannerPos == ll.almostDoneIndex {
-			fmt.Println("\tscannerPos is at almost done", ll.layerNumber)
+			//fmt.Println("\tscannerPos is at almost done", ll.layerNumber)
 			ll.direction = up
 			ll.data[ll.scannerPos] = 0
 			ll.scannerPos = ll.depth - 2
 			ll.data[ll.scannerPos] = 9
 		} else {
-			fmt.Println("\telse case")
+			//fmt.Println("\telse case")
 			ll.data[ll.scannerPos] = 0
-			fmt.Println("\telse case before scannerPos++", ll.scannerPos)
+			//fmt.Println("\telse case before scannerPos++", ll.scannerPos)
 			ll.scannerPos = ll.scannerPos + 1
-			fmt.Println("\telse case after scannerPos++", ll.scannerPos)
+			//fmt.Println("\telse case after scannerPos++", ll.scannerPos)
 			ll.data[ll.scannerPos] = 9
 		}
 	} else if ll.direction == up {
-		fmt.Println("\tdir is up for", ll.layerNumber)
+		//fmt.Println("\tdir is up for", ll.layerNumber)
 		if ll.scannerPos == 0 {
 			ll.direction = down
 			ll.data[ll.scannerPos] = 0
@@ -154,9 +154,7 @@ func findALayer(layers []Layer, layerNum int) (Layer, error) {
 	return NewLayer(0, 0), errors.New("invalid layernumber")
 }
 
-func rPart2(delay int, layers []Layer) (bool, int) {
-	//maxLoop := delay + 89 // this is a hard code
-	maxLoop := delay + 7 // this is a hard code
+func rPart2(delay int, layers []Layer, maxLoop int) (bool, int) {
 	person := -1
 	gotCaught := false
 	totalCost := 0
@@ -177,25 +175,25 @@ func rPart2(delay int, layers []Layer) (bool, int) {
 			delay--
 		}
 
-		fmt.Println("stepping layers now...")
+		//fmt.Println("stepping layers now...")
 		for index := range layers {
-			fmt.Println("\tstep", index)
+			//fmt.Println("\tstep", index)
 			// must do this with orig array if
 			// you want step to work
 			layers[index].step()
 		}
 
-		for _, ll := range layers {
-			fmt.Println("\t", ll)
-		}
-		fmt.Println("--------")
+		//for _, ll := range layers {
+		//fmt.Println("\t", ll)
+		//}
+		//fmt.Println("--------")
 	}
 	return gotCaught, totalCost
 }
 
 func part2() {
-	//inputLayers := readInputfile("part1.input")
-	inputLayers := readInputfile("test.input")
+	inputLayers := readInputfile("part1.input")
+	//inputLayers := readInputfile("test.input")
 	maxLayerNum := findMaxLayerNum(inputLayers)
 	layers := make([]Layer, 0)
 	for i := 0; i < maxLayerNum+1; i++ {
@@ -216,7 +214,11 @@ func part2() {
 	}
 	//fmt.Println("before rPArt2 layers", layers)
 
-	gotCaught, cost := rPart2(0, layers)
+	//maxLoop := delay + 89 // this is a hard code
+	//maxLoop := delay + 7 // this is a hard code for test.input
+	// delay + MAGIC NUMBER
+	maxLoop := 0 + 89 // this is a hard code for part1.input
+	gotCaught, cost := rPart2(0, layers, maxLoop)
 
 	fmt.Println(gotCaught, cost)
 
@@ -224,61 +226,6 @@ func part2() {
 
 }
 
-func testSteps() {
-	inputLayers := readInputfile("test.input")
-	maxLayerNum := findMaxLayerNum(inputLayers)
-	layers := make([]Layer, 0)
-	for i := 0; i < maxLayerNum+1; i++ {
-		l, err := findALayer(inputLayers, i)
-		if err != nil {
-			layers = append(layers, NewLayer(i, 0))
-		} else {
-			layers = append(layers, l)
-		}
-	}
-
-	// step 1
-	fmt.Println("1 stepping layers now...")
-	for index, ll := range layers {
-		fmt.Println("\tstep", index)
-		ll.step()
-	}
-
-	for _, ll := range layers {
-		fmt.Println("\t", ll)
-	}
-	fmt.Println("--------")
-
-	// step 2
-	fmt.Println("1 stepping layers now...")
-	for index, ll := range layers {
-		fmt.Println("\tstep", index)
-		ll.step()
-	}
-
-	for _, ll := range layers {
-		fmt.Println("\t", ll)
-	}
-	fmt.Println("--------")
-
-}
-
-func smallTest() {
-	ll := NewLayer(0, 4)
-	layers := make([]Layer, 0)
-	layers = append(layers, ll)
-	layers = append(layers, NewLayer(1, 0))
-	fmt.Println(layers)
-	for index := range layers {
-		layers[index].step()
-	}
-	fmt.Println(layers)
-	for index := range layers {
-		layers[index].step()
-	}
-	fmt.Println(layers)
-}
-
 func main() {
-
+	part2()
 }
