@@ -1,6 +1,15 @@
 # tonys advent of code 2017
 -------------------------
 
+## Day 13 again still not done
+Man I found a stupid subtle thing with range that I did not know/understand.
+
+When you call range on a slice and use the second parameter, you are getting a COPY of the value in the slice! Which means if you have methods that you are calling expecting them to change the values in the slice it will not happen!
+
+This is a stupid subtle point to me. I looked back over the docs and nothing really indicated to me that I was getting a copy. Wonder if the copy is deep? What happens with nested structs?
+
+Seems like a bad way to do it, I am sure there are some reasons for that behavior.
+
 ## Day 14
 For part1 I was happy I had spent some extra time on Day 10. KnotHash looked interesting enough that I had guessed I would see it again. So pulling the code from day10 was fairly easy. I renamed some of the routines and pulled out debug code. But it made this part of the problem easy.
 
