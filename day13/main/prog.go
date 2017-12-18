@@ -263,8 +263,7 @@ func testSteps() {
 
 }
 
-func main() {
-
+func smallTest() {
 	ll := NewLayer(0, 4)
 	layers := make([]Layer, 0)
 	layers = append(layers, ll)
@@ -278,5 +277,8 @@ func main() {
 		layers[index].step()
 	}
 	fmt.Println(layers)
+}
+
+func main() {
 
 }
