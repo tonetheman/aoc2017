@@ -146,6 +146,34 @@ func findALayer(layers []Layer, layerNum int) (Layer, error) {
 	return NewLayer(0, 0), errors.New("invalid layernumber")
 }
 
+func rPart2(delay int, layers []Layer) (bool, int) {
+	maxLoop := delay + 89 // this is a hard code
+	person := -1
+	gotCaught := false
+	totalCost := 0
+
+	for i := 0; i < maxLoop; i++ {
+		if delay == 0 {
+			person++
+			ll := layers[person]
+			if len(ll.data) > 0 {
+				if ll.data[0] == 9 {
+					gotCaught = true
+					totalCost += ll.cost()
+				}
+			}
+		} else {
+			delay--
+		}
+
+		for _, ll := range layers {
+			ll.step()
+		}
+
+	}
+	return gotCaught, totalCost
+}
+
 func part2() {
 	inputLayers := readInputfile("part1.input")
 	maxLayerNum := findMaxLayerNum(inputLayers)
@@ -165,6 +193,8 @@ func part2() {
 		// clear the layers
 		for _, ll := range layers {
 			ll.reset()
+			_, _ := rPart2(i, layers)
+
 		}
 
 	}
