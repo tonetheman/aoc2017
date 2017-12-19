@@ -162,6 +162,36 @@ func computeUsed(s string) int {
 	return totalUsed
 }
 
+func computeGrid(s string) int {
+
+	totalUsed := 0
+
+	// create a 128x128 grid
+	rows := make([][]int, 128)
+	for i := 0; i < 128; i++ {
+		rows[i] = make([]int, 128)
+	}
+
+	for i := 0; i < 128; i++ {
+		sKey := fmt.Sprintf("%s-%d", s, i)
+
+		res := knotHashRound(sKey)
+		bitString := ""
+		for i := 0; i < len(res); i++ {
+			ts := fmt.Sprintf("%08b", res[i])
+			bitString += ts
+		}
+
+		// count the 1s 0==48, 1==49 runes
+		for _, val := range bitString {
+			totalUsed += (int(val) - 48)
+		}
+
+	}
+
+	return totalUsed
+}
+
 func messingAround() {
 	// checking that i know how to use sprintf
 	//sKey := "flqrgnkx"
