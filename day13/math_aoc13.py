@@ -96,6 +96,7 @@ def tonypart2():
 				# print "layer",d, calc(d[1], i+j)
 				if calc(d[1],i+j):
 					cost = True
+					break
 		# print("delay end",i,"cost is",cost)
 
 		if cost == False:
