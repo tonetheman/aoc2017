@@ -155,6 +155,7 @@ func findALayer(layers []Layer, layerNum int) (Layer, error) {
 }
 
 func rPart2(delay int, layers []Layer, maxLoop int) (bool, int) {
+
 	person := -1
 	gotCaught := false
 	totalCost := 0
@@ -164,10 +165,18 @@ func rPart2(delay int, layers []Layer, maxLoop int) (bool, int) {
 			person++
 			ll := layers[person]
 			//fmt.Println("person moved and is now in layer", person, ll)
-			if len(ll.data) > 0 {
+			//if len(ll.data) > 0 {
+			if ll.depth > 0 { // part2 optimization
 				if ll.data[0] == 9 {
 					//fmt.Println("COST")
 					gotCaught = true
+
+					// added this for part2
+					// to try to cut time
+					// anytime you get caught then
+					// you can just stop
+					return true, 0
+
 					totalCost += ll.cost()
 				}
 			}
@@ -188,12 +197,14 @@ func rPart2(delay int, layers []Layer, maxLoop int) (bool, int) {
 		//}
 		//fmt.Println("--------")
 	}
+
 	return gotCaught, totalCost
 }
 
-func part2() {
-	inputLayers := readInputfile("part1.input")
-	//inputLayers := readInputfile("test.input")
+/*
+func part2(delay int) (bool, int) {
+	//inputLayers := readInputfile("part1.input")
+	inputLayers := readInputfile("test.input")
 	maxLayerNum := findMaxLayerNum(inputLayers)
 	layers := make([]Layer, 0)
 	for i := 0; i < maxLayerNum+1; i++ {
@@ -215,17 +226,76 @@ func part2() {
 	//fmt.Println("before rPArt2 layers", layers)
 
 	//maxLoop := delay + 89 // this is a hard code
-	//maxLoop := delay + 7 // this is a hard code for test.input
+	maxLoop := delay + 7 // this is a hard code for test.input
 	// delay + MAGIC NUMBER
-	maxLoop := 0 + 89 // this is a hard code for part1.input
-	gotCaught, cost := rPart2(0, layers, maxLoop)
+	//maxLoop := delay + 89 // this is a hard code for part1.input
+	gotCaught, cost := rPart2(delay, layers, maxLoop)
 
-	fmt.Println(gotCaught, cost)
-
+	//fmt.Println(delay, gotCaught, cost)
+	return gotCaught, cost
 	//}
 
 }
 
+
+func part2Run() {
+	for i := 0; i < 11; i++ {
+		gotCaught, cost := part2(i)
+		if !gotCaught {
+			fmt.Println("found it", i, cost)
+		}
+	}
+}
+*/
+
+func part2Efficient(delay int, layers []Layer) (bool, int) {
+
+	// clear the layers
+	for index := range layers {
+		layers[index].reset()
+	}
+	//fmt.Println("before rPArt2 layers", layers)
+
+	//maxLoop := delay + 89 // this is a hard code
+	//maxLoop := delay + 7 // this is a hard code for test.input
+	// delay + MAGIC NUMBER
+	maxLoop := delay + 89 // this is a hard code for part1.input
+	gotCaught, cost := rPart2(delay, layers, maxLoop)
+
+	//fmt.Println(delay, gotCaught, cost)
+	return gotCaught, cost
+
+}
+
+func part2ERun() {
+
+	inputLayers := readInputfile("part1.input")
+	//inputLayers := readInputfile("test.input")
+	maxLayerNum := findMaxLayerNum(inputLayers)
+	layers := make([]Layer, 0)
+	for i := 0; i < maxLayerNum+1; i++ {
+		l, err := findALayer(inputLayers, i)
+		if err != nil {
+			layers = append(layers, NewLayer(i, 0))
+		} else {
+			layers = append(layers, l)
+		}
+	}
+	for i := 3000000; i < 4000000; i++ {
+		if i%1000 == 0 {
+			fmt.Printf("%d - *\n", i)
+		}
+		gotCaught, cost := part2Efficient(i, layers)
+		if !gotCaught {
+			fmt.Println("found it", i, cost)
+			break
+		}
+	}
+
+	//part2Efficient(0, layers)
+
+}
+
 func main() {
-	part2()
+	part2ERun()
 }
