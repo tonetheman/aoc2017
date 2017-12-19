@@ -5,10 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"runtime/trace"
 	"strconv"
 	"strings"
-	"time"
 )
 
 const (
@@ -156,8 +154,8 @@ func findALayer(layers []Layer, layerNum int) (Layer, error) {
 	return NewLayer(0, 0), errors.New("invalid layernumber")
 }
 
-func rPart2(delay int, layers []Layer, maxLoop int, f *os.File) (bool, int) {
-	trace.Start(f)
+func rPart2(delay int, layers []Layer, maxLoop int) (bool, int) {
+
 	person := -1
 	gotCaught := false
 	totalCost := 0
@@ -199,7 +197,7 @@ func rPart2(delay int, layers []Layer, maxLoop int, f *os.File) (bool, int) {
 		//}
 		//fmt.Println("--------")
 	}
-	trace.Stop()
+
 	return gotCaught, totalCost
 }
 
@@ -250,7 +248,7 @@ func part2Run() {
 }
 */
 
-func part2Efficient(delay int, layers []Layer, f *os.File) (bool, int) {
+func part2Efficient(delay int, layers []Layer) (bool, int) {
 
 	// clear the layers
 	for index := range layers {
@@ -262,7 +260,7 @@ func part2Efficient(delay int, layers []Layer, f *os.File) (bool, int) {
 	//maxLoop := delay + 7 // this is a hard code for test.input
 	// delay + MAGIC NUMBER
 	maxLoop := delay + 89 // this is a hard code for part1.input
-	gotCaught, cost := rPart2(delay, layers, maxLoop, f)
+	gotCaught, cost := rPart2(delay, layers, maxLoop)
 
 	//fmt.Println(delay, gotCaught, cost)
 	return gotCaught, cost
@@ -271,13 +269,6 @@ func part2Efficient(delay int, layers []Layer, f *os.File) (bool, int) {
 
 func part2ERun() {
 
-	f, err := os.Create(time.Now().Format("2006-01-02T150405.pprof"))
-	if err != nil {
-		panic(err)
-	}
-	defer f.Close()
-
-	//trace.Start(f)
 	inputLayers := readInputfile("part1.input")
 	//inputLayers := readInputfile("test.input")
 	maxLayerNum := findMaxLayerNum(inputLayers)
@@ -294,14 +285,14 @@ func part2ERun() {
 		if i%1000 == 0 {
 			fmt.Printf("%d - *\n", i)
 		}
-		gotCaught, cost := part2Efficient(i, layers, f)
+		gotCaught, cost := part2Efficient(i, layers)
 		if !gotCaught {
 			fmt.Println("found it", i, cost)
+			break
 		}
 	}
 
-	part2Efficient(0, layers, f)
-	//trace.Stop()
+	//part2Efficient(0, layers)
 
 }
 
