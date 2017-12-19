@@ -1,6 +1,13 @@
 # tonys advent of code 2017
 -------------------------
 
+## Day 13 (final)
+Yup math.
+
+Sat down and traced out what happens for a delay and not a delay and the pattern became obvious.
+
+Wrote it out in python and made one small optimization to stop checking once I get any cost at all. Super fast.
+
 ## Day 13 again still not done
 Man I found a stupid subtle thing with range that I did not know/understand.
 
