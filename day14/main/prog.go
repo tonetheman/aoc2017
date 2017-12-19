@@ -177,6 +177,7 @@ func computeGrid(s string) int {
 
 		res := knotHashRound(sKey)
 		bitString := ""
+		fmt.Println("len of res", len(res))
 		for j := 0; j < len(res); j++ {
 			ts := fmt.Sprintf("%08b", res[j])
 			bitString += ts
@@ -233,6 +234,10 @@ func testcase() {
 	fmt.Println("answer:", computeUsed("flqrgnkx"))
 }
 
-func main() {
+func part1() {
 	fmt.Println("answer:", computeUsed("xlqgujun"))
+}
+
+func main() {
+	computeGrid("flqrgnkx")
 }
