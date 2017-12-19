@@ -211,6 +211,22 @@ func messingAround() {
 
 }
 
+// convert a string of ascii 0,1 into an array of ints
+// single dimension only
+func sTob(s string) []int {
+	b := make([]int,len(s))
+	for idx := range s {
+		fmt.Println(s[idx])
+		if s[idx]==48 {
+			b[idx] = 0
+		} else if s[idx]==49 {
+			b[idx] = 1
+		}
+	}
+	return b
+}
+
+
 func testcase() {
 	// test case
 	//8108
