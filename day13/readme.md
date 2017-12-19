@@ -1,5 +1,34 @@
 Some thoughts
 
+PART2
+----------------------------
+calc_hit NOT CALLED
+p0
+delay=1
+person=-1
+[S 0] 
+[S 0 0]
+
+calc_hit(period=2,step=0,delay=1)
+p1
+delay=1
+person=0
+*[(0) S]
+[0 S 0]
+
+calc_hit(period=3,step=1,delay=1)
+p2
+delay=1
+person=1
+[S 0]
+*[(0) 0 S]
+
+
+
+
+PART1
+-------------------------
+
 Maybe I was too quick to dismiss the math
 - Can I use this?
 
