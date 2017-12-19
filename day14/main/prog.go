@@ -147,8 +147,8 @@ func computeUsed(s string) int {
 
 		res := knotHashRound(sKey)
 		bitString := ""
-		for i := 0; i < len(res); i++ {
-			ts := fmt.Sprintf("%08b", res[i])
+		for j := 0; j < len(res); j++ {
+			ts := fmt.Sprintf("%08b", res[j])
 			bitString += ts
 		}
 
@@ -177,8 +177,8 @@ func computeGrid(s string) int {
 
 		res := knotHashRound(sKey)
 		bitString := ""
-		for i := 0; i < len(res); i++ {
-			ts := fmt.Sprintf("%08b", res[i])
+		for j := 0; j < len(res); j++ {
+			ts := fmt.Sprintf("%08b", res[j])
 			bitString += ts
 		}
 
