@@ -290,9 +290,9 @@ func part2ERun() {
 			layers = append(layers, l)
 		}
 	}
-	for i := 0; i < 10000; i++ {
+	for i := 3000000; i < 4000000; i++ {
 		if i%1000 == 0 {
-			fmt.Printf("*")
+			fmt.Printf("%d - *\n", i)
 		}
 		gotCaught, cost := part2Efficient(i, layers, f)
 		if !gotCaught {
