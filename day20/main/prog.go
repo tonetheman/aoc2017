@@ -50,6 +50,21 @@ func parseString(s string) particle {
 	return tmp
 }
 
+func (p *particle) tick() {
+	p.v.x += p.a.x
+	p.v.y += p.a.y
+	p.v.z += p.a.z
+
+	p.p.x += p.a.x
+	p.p.y += p.a.y
+	p.p.z += p.a.z
+}
+
+func testme() {
+	steps := []string{"p=< 3,0,0>, v=< 2,0,0>, a=<-1,0,0>",
+		"p=< 4,0,0>, v=< 0,0,0>, a=<-2,0,0>"}
+
+}
 func main() {
 	parseString("p=< 3,0,0>, v=< 2,0,0>, a=<-1,0,0>")
 	fmt.Println("-----------")
