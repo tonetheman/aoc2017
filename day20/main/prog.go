@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"regexp"
 	"strconv"
 	"strings"
@@ -60,13 +61,40 @@ func (p *particle) tick() {
 	p.p.z += p.a.z
 }
 
+func (p particle) dist() float64 {
+	return math.Abs(float64(p.p.x)) + math.Abs(float64(p.p.y)) + math.Abs(float64(p.p.z))
+}
+
+func printDist(p []particle) {
+	for idx := range p {
+		fmt.Printf("%f ", p[idx].dist())
+	}
+	fmt.Println()
+}
+
 func testme() {
 	steps := []string{"p=< 3,0,0>, v=< 2,0,0>, a=<-1,0,0>",
 		"p=< 4,0,0>, v=< 0,0,0>, a=<-2,0,0>"}
+	p := make([]particle, 0)
+	p = append(p, parseString(steps[0]))
+	p = append(p, parseString(steps[1]))
+	for i := 0; i < 3; i++ {
+		fmt.Println("before dist")
+		printDist(p)
+		for idx := range p {
+			p[idx].tick()
+		}
+		fmt.Println(p)
+		fmt.Println("after dist")
+		printDist(p)
+		fmt.Println("----------")
+	}
 
 }
 func main() {
-	parseString("p=< 3,0,0>, v=< 2,0,0>, a=<-1,0,0>")
-	fmt.Println("-----------")
-	parseString("p=<-36,-1100,4900>, v=<62,22,56>, a=<-4,1,-15>")
+	//parseString("p=< 3,0,0>, v=< 2,0,0>, a=<-1,0,0>")
+	//fmt.Println("-----------")
+	//parseString("p=<-36,-1100,4900>, v=<62,22,56>, a=<-4,1,-15>")
+	testme()
+
 }
