@@ -147,8 +147,39 @@ func computeUsed(s string) int {
 
 		res := knotHashRound(sKey)
 		bitString := ""
-		for i := 0; i < len(res); i++ {
-			ts := fmt.Sprintf("%08b", res[i])
+		for j := 0; j < len(res); j++ {
+			ts := fmt.Sprintf("%08b", res[j])
+			bitString += ts
+		}
+
+		// count the 1s 0==48, 1==49 runes
+		for _, val := range bitString {
+			totalUsed += (int(val) - 48)
+		}
+
+	}
+
+	return totalUsed
+}
+
+func computeGrid(s string) int {
+
+	totalUsed := 0
+
+	// create a 128x128 grid
+	rows := make([][]int, 128)
+	for i := 0; i < 128; i++ {
+		rows[i] = make([]int, 128)
+	}
+
+	for i := 0; i < 128; i++ {
+		sKey := fmt.Sprintf("%s-%d", s, i)
+
+		res := knotHashRound(sKey)
+		bitString := ""
+		fmt.Println("len of res", len(res))
+		for j := 0; j < len(res); j++ {
+			ts := fmt.Sprintf("%08b", res[j])
 			bitString += ts
 		}
 
@@ -181,12 +212,32 @@ func messingAround() {
 
 }
 
+// convert a string of ascii 0,1 into an array of ints
+// single dimension only
+func sTob(s string) []int {
+	b := make([]int,len(s))
+	for idx := range s {
+		fmt.Println(s[idx])
+		if s[idx]==48 {
+			b[idx] = 0
+		} else if s[idx]==49 {
+			b[idx] = 1
+		}
+	}
+	return b
+}
+
+
 func testcase() {
 	// test case
 	//8108
 	fmt.Println("answer:", computeUsed("flqrgnkx"))
 }
 
-func main() {
+func part1() {
 	fmt.Println("answer:", computeUsed("xlqgujun"))
+}
+
+func main() {
+	computeGrid("flqrgnkx")
 }
