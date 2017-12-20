@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
+	"strings"
 )
 
 type point struct {
@@ -15,28 +16,42 @@ type particle struct {
 	a point
 }
 
+// parses a single line from the input
+// into a particle struct
 func parseString(s string) particle {
 	re := regexp.MustCompile("=<.*?>")
-	re2 := regexp.MustCompile("([0-9]+),([0-9]+),([0-9]+)")
 	res := re.FindAllString(s, -1)
-	fmt.Println(len(res))
+	//fmt.Println(len(res))
 	var tmp particle
 	//var tmp particle
 	for idx := range res {
-		fmt.Println(res[idx])
-		ts := re2.FindAllString(res[idx], -1)
-		re2.
-
+		//fmt.Println(res[idx])
+		ts := res[idx][2:]
+		//fmt.Println(ts)
+		tsS := strings.Split(ts, ",")
+		//fmt.Println(tsS)
 		if idx == 0 {
-			tmp.p.x, _ = strconv.Atoi(ts[0])
-			tmp.p.y, _ = strconv.Atoi(ts[1])
-			tmp.p.z, _ = strconv.Atoi(ts[2])
+			tmp.p.x, _ = strconv.Atoi(strings.Trim(tsS[0], " "))
+			tmp.p.y, _ = strconv.Atoi(tsS[1])
+			tmp.p.z, _ = strconv.Atoi(strings.TrimRight(tsS[2], ">"))
+		} else if idx == 1 {
+			tmp.v.x, _ = strconv.Atoi(strings.Trim(tsS[0], " "))
+			tmp.v.y, _ = strconv.Atoi(tsS[1])
+			tmp.v.z, _ = strconv.Atoi(strings.TrimRight(tsS[2], ">"))
+		} else if idx == 2 {
+			tmp.a.x, _ = strconv.Atoi(strings.Trim(tsS[0], " "))
+			tmp.a.y, _ = strconv.Atoi(tsS[1])
+			tmp.a.z, _ = strconv.Atoi(strings.TrimRight(tsS[2], ">"))
 		}
 	}
+	//fmt.Println("tmp is set", tmp)
+
 	//fmt.Println(re)
 	return tmp
 }
 
 func main() {
 	parseString("p=< 3,0,0>, v=< 2,0,0>, a=<-1,0,0>")
+	fmt.Println("-----------")
+	parseString("p=<-36,-1100,4900>, v=<62,22,56>, a=<-4,1,-15>")
 }
