@@ -120,12 +120,14 @@ func part1a(inputString string, programs []string) []string {
 			if err != nil {
 				fmt.Println("err conv 2", instr)
 			}
-			programs = exchange(programs, i1, i2)
+			//programs = exchange(programs, i1, i2)
+			exchange(programs, i1, i2)
 		} else if instr[0] == 112 {
 			// p
 			d2 := strings.Split(instr[1:], "/")
 			//fmt.Println("P,d2", d2)
-			programs = partner(programs, d2[0], d2[1])
+			//programs = partner(programs, d2[0], d2[1])
+			partner(programs, d2[0], d2[1])
 		} else {
 			fmt.Println("invalid instr", instr)
 		}
@@ -158,7 +160,7 @@ func part2() {
 	programs := []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"}
 	dataInput := readStringFromFile("part1.input")
 
-	var i int64 = 1000
+	var i int64 = 0
 	for i = 0; i < 1000; i++ {
 		programs = part1a(dataInput, programs[:])
 		if i%1000 == 0 {
