@@ -164,6 +164,44 @@ func part2() {
 	}
 	fmt.Println(programs)
 }
+
+func spin1_inp(a []string) []string {
+	fmt.Printf("spin1_inp called %p\n", &a)
+	fmt.Printf("spin1_inp of 2nd element %p\n", &a[1])
+	fmt.Printf("spin1_inp of 3rd element %p\n", &a[2])
+
+	a[0], a[len(a)-1] = a[len(a)-1], a[0]
+	return a
+}
+
+func spin_inp(a []string, count int) []string {
+	for i := 0; i < count; i++ {
+		fmt.Println("in spin_inp called spin1_inp now")
+		spin1_inp(a)
+		fmt.Println("just did spin1 a is", a)
+	}
+	return a
+}
+
+func test_spin_inplace() {
+	/*
+		a := make([]string, 0)
+		a = append(a, "a", "b", "c", "d", "e")
+		fmt.Println("a before", a)
+		spin1_inp(a)
+		fmt.Println("a after", a)
+		fmt.Println("----------------------")
+	*/
+	b := make([]string, 0)
+	b = append(b, "a", "b", "c", "d", "e")
+	fmt.Printf("addr of b %p %T\n", &b, b)
+	fmt.Printf("addr of 2nd element %p\n", &b[1])
+	fmt.Printf("addr of 3rd element %p\n", &b[2])
+	fmt.Println("before b", b)
+	spin_inp(b, 2)
+	fmt.Println("after b", b)
+
+}
 func main() {
 	//programs := []string{"a", "b", "c", "d", "e"}
 	//part1("test.input", programs)
@@ -173,5 +211,6 @@ func main() {
 	//fmt.Println("total programs", len(programs))
 	//part1("part1.input", programs)
 
-	part2()
+	//part2()
+	test_spin_inplace()
 }
