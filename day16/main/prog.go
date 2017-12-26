@@ -3,9 +3,11 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func spin(a []string, count int) []string {
@@ -105,7 +107,8 @@ func part1a(inputString string, programs []string) []string {
 			if err != nil {
 				fmt.Println("could not conver sping", instr)
 			}
-			programs = spin(programs, count)
+			//programs = spin(programs, count)
+			spin_inp(programs, count)
 		} else if instr[0] == 120 {
 			// x
 			d2 := strings.Split(instr[1:], "/")
@@ -208,6 +211,9 @@ func main() {
 	//fmt.Println("total programs", len(programs))
 	//part1("part1.input", programs)
 
+	start := time.Now()
 	part2()
+	elapsed := time.Since(start)
+	log.Printf("part2 took %s", elapsed)
 	//test_spin_inplace()
 }
