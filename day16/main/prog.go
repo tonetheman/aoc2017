@@ -40,16 +40,16 @@ func partner(a []string, p1, p2 string) []string {
 	return exchange(a, pos1, pos2)
 }
 
-func part1() {
+func part1(filename string, programs []string) {
 	// open the file
-	inf, err := os.Open("test.input")
+	inf, err := os.Open(filename)
 	if err != nil {
 		fmt.Println("cannot open file", err)
 	}
 	// close it later
 	defer inf.Close()
 
-	programs := []string{"a", "b", "c", "d", "e"}
+	//programs := []string{"a", "b", "c", "d", "e"}
 
 	// make a scanner to read in line by line
 	scanner := bufio.NewScanner(inf)
@@ -82,7 +82,7 @@ func part1() {
 			} else if instr[0] == 112 {
 				// p
 				d2 := strings.Split(instr[1:], "/")
-				fmt.Println("P,d2", d2)
+				//fmt.Println("P,d2", d2)
 				programs = partner(programs, d2[0], d2[1])
 			} else {
 				fmt.Println("invalid instr", instr)
@@ -93,5 +93,10 @@ func part1() {
 }
 
 func main() {
-	part1()
+	//programs := []string{"a", "b", "c", "d", "e"}
+	//part1("test.input", programs)
+
+	programs := []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"}
+	fmt.Println("total programs", len(programs))
+	part1("part1.input", programs)
 }
