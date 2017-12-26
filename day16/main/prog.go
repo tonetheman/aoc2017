@@ -155,8 +155,8 @@ func part2() {
 	programs := []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"}
 	dataInput := readStringFromFile("part1.input")
 
-	var i int64 = 1000000000
-	for i = 0; i < 1000000000; i++ {
+	var i int64 = 1000
+	for i = 0; i < 1000; i++ {
 		programs = part1a(dataInput, programs[:])
 		if i%1000 == 0 {
 			fmt.Printf("*")
@@ -166,41 +166,38 @@ func part2() {
 }
 
 func spin1_inp(a []string) []string {
-	fmt.Printf("spin1_inp called %p\n", &a)
-	fmt.Printf("spin1_inp of 2nd element %p\n", &a[1])
-	fmt.Printf("spin1_inp of 3rd element %p\n", &a[2])
-
-	a[0], a[len(a)-1] = a[len(a)-1], a[0]
+	ll := len(a) - 1
+	for i := ll; i > 1; i-- {
+		//fmt.Println("\tworking on ", ll, ll-1)
+		a[i], a[i-1] = a[i-1], a[i]
+	}
+	a[0], a[1] = a[1], a[0]
 	return a
 }
 
 func spin_inp(a []string, count int) []string {
 	for i := 0; i < count; i++ {
-		fmt.Println("in spin_inp called spin1_inp now")
+		//fmt.Println("in spin_inp called spin1_inp now")
 		spin1_inp(a)
-		fmt.Println("just did spin1 a is", a)
+		//fmt.Println("just did spin1 a is", a)
 	}
 	return a
 }
 
 func test_spin_inplace() {
-	/*
-		a := make([]string, 0)
-		a = append(a, "a", "b", "c", "d", "e")
-		fmt.Println("a before", a)
-		spin1_inp(a)
-		fmt.Println("a after", a)
-		fmt.Println("----------------------")
-	*/
 	b := make([]string, 0)
 	b = append(b, "a", "b", "c", "d", "e")
-	fmt.Printf("addr of b %p %T\n", &b, b)
-	fmt.Printf("addr of 2nd element %p\n", &b[1])
-	fmt.Printf("addr of 3rd element %p\n", &b[2])
-	fmt.Println("before b", b)
-	spin_inp(b, 2)
-	fmt.Println("after b", b)
-
+	fmt.Println("b1", b)
+	spin_inp(b, 3)
+	fmt.Println("b2", b)
+	/*
+		fmt.Printf("addr of b %p %T\n", &b, b)
+		fmt.Printf("addr of 2nd element %p\n", &b[1])
+		fmt.Printf("addr of 3rd element %p\n", &b[2])
+		fmt.Println("before b", b)
+		spin_inp(b, 1)
+		fmt.Println("after b", b)
+	*/
 }
 func main() {
 	//programs := []string{"a", "b", "c", "d", "e"}
@@ -211,6 +208,6 @@ func main() {
 	//fmt.Println("total programs", len(programs))
 	//part1("part1.input", programs)
 
-	//part2()
-	test_spin_inplace()
+	part2()
+	//test_spin_inplace()
 }
