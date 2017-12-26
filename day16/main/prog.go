@@ -197,7 +197,7 @@ func part2() {
 	dataInput := readStringFromFile("part1.input")
 	instructions := parseOnce(dataInput)
 	var i int64 = 0
-	for i = 0; i < 1000; i++ {
+	for i = 0; i < 1000000; i++ {
 		programs = part1a(dataInput, programs[:], instructions)
 		if i%1000 == 0 {
 			fmt.Printf("*")
@@ -240,6 +240,7 @@ func test_spin_inplace() {
 		fmt.Println("after b", b)
 	*/
 }
+
 func main() {
 	//programs := []string{"a", "b", "c", "d", "e"}
 	//part1("test.input", programs)
