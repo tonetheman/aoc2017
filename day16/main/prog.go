@@ -95,7 +95,37 @@ func part1(filename string, programs []string) []string {
 	return programs
 }
 
-func part1a(inputString string, programs []string) []string {
+const (
+	i_assign   = 5
+	i_exchange = 6
+	i_partner  = 7
+)
+
+type instruction struct {
+	typ    int
+	count  int
+	v1, v2 int
+	a1, a2 string
+}
+
+func part1a(inputString string, programs []string, instructions []instruction) []string {
+
+	for index := range instructions {
+		instr := instructions[index]
+		if instr.typ == i_assign {
+			spin_inp(programs, instr.count)
+		} else if instr.typ == i_exchange {
+			exchange(programs, instr.v1, instr.v2)
+		} else if instr.typ == i_partner {
+			partner(programs, instr.a1, instr.a2)
+		}
+	}
+
+	return programs
+}
+
+func parseOnce(inputString string) []instruction {
+	tmp := make([]instruction, 0)
 
 	data := strings.Split(inputString, ",")
 	//fmt.Println(data)
@@ -107,8 +137,10 @@ func part1a(inputString string, programs []string) []string {
 			if err != nil {
 				fmt.Println("could not conver sping", instr)
 			}
-			//programs = spin(programs, count)
-			spin_inp(programs, count)
+			var tmp_i instruction
+			tmp_i.typ = i_assign
+			tmp_i.count = count
+			tmp = append(tmp, tmp_i)
 		} else if instr[0] == 120 {
 			// x
 			d2 := strings.Split(instr[1:], "/")
@@ -120,20 +152,24 @@ func part1a(inputString string, programs []string) []string {
 			if err != nil {
 				fmt.Println("err conv 2", instr)
 			}
-			//programs = exchange(programs, i1, i2)
-			exchange(programs, i1, i2)
+			var tmp_i instruction
+			tmp_i.typ = i_exchange
+			tmp_i.v1 = i1
+			tmp_i.v2 = i2
+			tmp = append(tmp, tmp_i)
 		} else if instr[0] == 112 {
 			// p
 			d2 := strings.Split(instr[1:], "/")
-			//fmt.Println("P,d2", d2)
-			//programs = partner(programs, d2[0], d2[1])
-			partner(programs, d2[0], d2[1])
+			var tmp_i instruction
+			tmp_i.typ = i_partner
+			tmp_i.a1 = d2[0]
+			tmp_i.a2 = d2[1]
+			tmp = append(tmp, tmp_i)
 		} else {
 			fmt.Println("invalid instr", instr)
 		}
 	}
-	//fmt.Println("programs", programs)
-	return programs
+	return tmp
 }
 
 func readStringFromFile(filename string) string {
@@ -159,10 +195,10 @@ func readStringFromFile(filename string) string {
 func part2() {
 	programs := []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"}
 	dataInput := readStringFromFile("part1.input")
-
+	instructions := parseOnce(dataInput)
 	var i int64 = 0
 	for i = 0; i < 1000; i++ {
-		programs = part1a(dataInput, programs[:])
+		programs = part1a(dataInput, programs[:], instructions)
 		if i%1000 == 0 {
 			fmt.Printf("*")
 		}
