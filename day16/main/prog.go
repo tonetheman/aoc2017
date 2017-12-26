@@ -40,7 +40,7 @@ func partner(a []string, p1, p2 string) []string {
 	return exchange(a, pos1, pos2)
 }
 
-func part1(filename string, programs []string) {
+func part1(filename string, programs []string) []string {
 	// open the file
 	inf, err := os.Open(filename)
 	if err != nil {
@@ -89,14 +89,89 @@ func part1(filename string, programs []string) {
 			}
 		}
 	}
-	fmt.Println("programs", programs)
+	//fmt.Println("programs", programs)
+	return programs
 }
 
+func part1a(inputString string, programs []string) []string {
+
+	data := strings.Split(inputString, ",")
+	//fmt.Println(data)
+	for index := range data {
+		instr := data[index]
+		if instr[0] == 115 {
+			// spin
+			count, err := strconv.Atoi(instr[1:])
+			if err != nil {
+				fmt.Println("could not conver sping", instr)
+			}
+			programs = spin(programs, count)
+		} else if instr[0] == 120 {
+			// x
+			d2 := strings.Split(instr[1:], "/")
+			i1, err := strconv.Atoi(d2[0])
+			if err != nil {
+				fmt.Println("err conv 1", instr)
+			}
+			i2, err := strconv.Atoi(d2[1])
+			if err != nil {
+				fmt.Println("err conv 2", instr)
+			}
+			programs = exchange(programs, i1, i2)
+		} else if instr[0] == 112 {
+			// p
+			d2 := strings.Split(instr[1:], "/")
+			//fmt.Println("P,d2", d2)
+			programs = partner(programs, d2[0], d2[1])
+		} else {
+			fmt.Println("invalid instr", instr)
+		}
+	}
+	//fmt.Println("programs", programs)
+	return programs
+}
+
+func readStringFromFile(filename string) string {
+	// open the file
+	inf, err := os.Open(filename)
+	if err != nil {
+		fmt.Println("cannot open file", err)
+	}
+	// close it later
+	defer inf.Close()
+
+	//programs := []string{"a", "b", "c", "d", "e"}
+
+	// make a scanner to read in line by line
+	scanner := bufio.NewScanner(inf)
+	for scanner.Scan() {
+		text := scanner.Text()
+		return text
+	}
+	return ""
+}
+
+func part2() {
+	programs := []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"}
+	dataInput := readStringFromFile("part1.input")
+
+	var i int64 = 1000000000
+	for i = 0; i < 1000000000; i++ {
+		programs = part1a(dataInput, programs[:])
+		if i%1000 == 0 {
+			fmt.Printf("*")
+		}
+	}
+	fmt.Println(programs)
+}
 func main() {
 	//programs := []string{"a", "b", "c", "d", "e"}
 	//part1("test.input", programs)
 
-	programs := []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"}
-	fmt.Println("total programs", len(programs))
-	part1("part1.input", programs)
+	// part1 here
+	//programs := []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"}
+	//fmt.Println("total programs", len(programs))
+	//part1("part1.input", programs)
+
+	part2()
 }
